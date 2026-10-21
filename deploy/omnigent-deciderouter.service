@@ -1,0 +1,20 @@
+# systemd --user unit for omnigent-deciderouter. Install steps: deploy/README.md
+[Unit]
+Description=omnigent-deciderouter (external Smart Routing server for Omnigent)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=%h/dev/omnigent-deciderouter
+# OPENROUTER_API_KEY only (0600).
+EnvironmentFile=%h/.config/omnigent-deciderouter/openrouter.env
+# HOST, PORT, ROUTER_API_KEY, ROUTER_TIMEOUT_MS (0600).
+EnvironmentFile=%h/.config/omnigent-deciderouter/router.env
+ExecStart=%h/.bun/bin/bun run src/index.ts
+Restart=on-failure
+RestartSec=3
+NoNewPrivileges=yes
+
+[Install]
+WantedBy=default.target

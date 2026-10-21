@@ -124,7 +124,7 @@ describe("chat path", () => {
     const handler = createHandler({
       config: makeConfig({
         OPENROUTER_API_KEY: "test-key",
-        DECIDER_MODELS: "meta-llama/llama-3.3-70b-instruct:free",
+        DECIDER_MODELS: "google/gemini-2.5-flash-lite",
       }),
       fetchFn: mockFetch,
     });
@@ -157,7 +157,7 @@ describe("chain fallthrough", () => {
     expect(calls).toBe(2);
     const body = await res.json();
     expect(body.route_selection[0].route_option).toEqual(OPTIONS[0]);
-    expect(body.route_selection[0].params.decider_model).toBe("meta-llama/llama-3.3-70b-instruct:free");
+    expect(body.route_selection[0].params.decider_model).toBe("google/gemini-2.5-flash-lite");
     expect(body.route_selection[0].params.source).toBe("chat");
   });
 });
@@ -194,5 +194,47 @@ describe("auth", () => {
   it("returns 200 when the Bearer token is right", async () => {
     const res = await handler(post(requestBody(), { Authorization: "Bearer s3cret" }));
     expect(res.status).toBe(200);
+  });
+});
+
+describe("production attempt diagnostics", () => {
+  it("reports primary HTTP failure and chat fallback without upstream text or prompt leakage", async () => {
+    let calls = 0;
+    const secret = "fixture-sensitive-credential";
+    const prompt = "private customer task content";
+    const handler = createHandler({
+      config: makeConfig({ OPENROUTER_API_KEY: secret }),
+      fetchFn: (async () => {
+        calls++;
+        if (calls === 1) return jsonResponse({ error: secret + prompt }, 429);
+        return jsonResponse({ choices: [{ message: { content: '{"ranking":[0,1,2],"rationale":"fallback succeeded"}' } }] });
+      }) as unknown as FetchFn,
+    });
+    const response = await handler(post(requestBody({ task: { prompt } })));
+    const body = await response.json();
+    expect(body.route_selection[0].params.source).toBe("chat");
+    expect(body.route_selection[0].params.attempt_errors).toEqual([
+      { attempt: 1, source: "decisions_api", error: "OpenRouter HTTP 429" },
+    ]);
+    expect(JSON.stringify(body)).not.toContain(secret);
+    expect(JSON.stringify(body)).not.toContain(prompt);
+  });
+
+  it("bounds diagnostics across the real failing chain and redacts arbitrary exception messages", async () => {
+    const secret = "fixture-key-never-echo";
+    const prompt = "private prompt never echo";
+    const handler = createHandler({
+      config: makeConfig({ OPENROUTER_API_KEY: secret, DECIDER_MODELS: Array(20).fill("inception/mercury-decide:free").join(",") }),
+      fetchFn: (async () => { throw new Error(secret + prompt + "x".repeat(10000)); }) as unknown as FetchFn,
+    });
+    const response = await handler(post(requestBody({ task: { prompt } })));
+    const body = await response.json();
+    expect(body.route_selection[0].params.source).toBe("heuristic");
+    const failures = body.route_selection[0].params.attempt_errors;
+    expect(failures).toHaveLength(8);
+    expect(failures[0]).toEqual({ attempt: 1, source: "decisions_api", error: "transport_error" });
+    expect(JSON.stringify(failures).length).toBeLessThan(1200);
+    expect(JSON.stringify(body)).not.toContain(secret);
+    expect(JSON.stringify(body)).not.toContain(prompt);
   });
 });

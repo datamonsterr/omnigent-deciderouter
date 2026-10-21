@@ -39,11 +39,20 @@ export interface SelectRouteResponse {
 
 export type DecisionSource = "decisions_api" | "chat" | "heuristic";
 
+export interface AttemptError {
+  attempt: number;
+  source: "decisions_api" | "chat";
+  error: string;
+}
+
 export interface DecisionResult {
+  attemptErrors: AttemptError[];
   /** Indices into route_options, best-first, every index exactly once. */
   ranking: number[];
   rationale: string;
   /** The decision model used, or "local-heuristic" for the fallback. */
   deciderModel: string;
+  /** Dated build reported by the Decisions API, when available. */
+  servedModel?: string;
   source: DecisionSource;
 }

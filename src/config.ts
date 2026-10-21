@@ -9,8 +9,8 @@ export interface Config {
   routerApiKey?: string;
   /** Decision-model chain, tried in order (free first, then cheap). */
   deciderModels: string[];
-  /** Model ids (exact) that must use the OpenRouter Decisions API.
-   *  Any model whose id contains "decide" also uses it by default. */
+  /** Model ids (exact) that must use the OpenRouter Decisions API, in
+   *  addition to the recognized decision-model names (see isDecisionModel). */
   decisionsModels: string[];
   /** Overall decision budget in milliseconds. */
   timeoutMs: number;
@@ -20,11 +20,9 @@ export interface Config {
   decisionsUrl: string;
 }
 
-export const DEFAULT_DECIDER_MODELS = [
-  "inception/mercury-decide:free",
-  "meta-llama/llama-3.3-70b-instruct:free",
-  "google/gemini-2.5-flash-lite",
-];
+// Free decisions model first, then one cheap chat model. Both ids must exist
+// in the live OpenRouter catalog (`bun run check:models`).
+export const DEFAULT_DECIDER_MODELS = ["inception/mercury-decide:free", "google/gemini-2.5-flash-lite"];
 
 type Env = Record<string, string | undefined>;
 

@@ -1,39 +1,60 @@
+import { modelProfile, optionLabel } from "./catalog";
 import type { RouteOption, SelectRouteRequest } from "./types";
 
 // Deterministic local fallback: no network, no randomness, no clock.
 // Used when there is no OpenRouter key or every decider model failed.
 
-const HIGH_TIER = [/opus/i, /gpt-5/i, /gpt-4o(?!-mini)/i, /o3/i, /o1/i, /\bpro\b/i, /405b/i, /70b/i, /sonnet/i];
-const MID_TIER = [/gpt-4/i, /llama-3\.3/i, /gemini/i, /claude/i, /32b/i, /27b/i];
-const FAST_CHEAP = [/mini/i, /flash/i, /lite/i, /haiku/i, /nano/i, /8b/i, /7b/i, /3b/i, /:free$/i, /free/i];
+// Name-based inference for models without a catalog profile. Fast markers are
+// checked first so "flash-lite" / "gpt-5-mini" are not promoted by family.
+const FAST_CHEAP = [/mini/i, /flash-lite/i, /\blite\b/i, /haiku/i, /nano/i, /\b[1-9]b\b/i, /-low$/i, /free/i];
+const HIGH_TIER = [/opus/i, /gpt-[56]/i, /gpt-4o/i, /^(openai\/)?o[134]\b/i, /\bpro\b/i, /405b/i, /70b/i, /sonnet/i, /-high$/i];
+const MID_TIER = [/gpt-4/i, /llama/i, /gemini/i, /claude/i, /32b/i, /27b/i, /-medium$/i];
 
+// Keyword weights: hard engineering signals, multi-file scope, routine work, trivial edits.
 const COMPLEX_KEYWORDS = [
-  "refactor", "architecture", "architect", "debug", "migrate", "migration",
-  "design", "algorithm", "optimise", "optimize", "security", "concurrency",
-  "distributed", "tests", "test suite", "performance", "analyse", "analyze",
-  "investigate", "root cause", "implement", "build a", "create a system",
+  "race condition", "deadlock", "concurren", "security", "vulnerab", "privilege", "timing attack",
+  "root cause", "intermittent", "nondetermin", "flaky", "memory leak", "architecture", "distributed",
+  "algorithm", "migrate", "migration", "zero-downtime", "subtle", "debug", "diagnose", "investigate",
+  "audit", "property-based", "clock skew", "rewrite", "event-sourcing", "edge cases",
+];
+const SCOPE_KEYWORDS = [
+  "across", "multi-file", "files", "components", "wire it", "port the", "interface", "multi-step",
+  "decompose", "slices", "several steps", "multi-component",
+];
+const ROUTINE_KEYWORDS = [
+  "implement", "add a", "endpoint", "unit test", "tests", "schema", "validation", "flag", "helper",
+  "query", "migration file", "page", "section", "design.md", "component",
 ];
 const SIMPLE_KEYWORDS = [
-  "typo", "rename", "format", "formatting", "comment", "spelling",
-  "fix a typo", "whitespace", "indent", "one-liner", "small fix",
+  "typo", "rename", "spelling", "whitespace", "formatter", "formatting", "comment", "copyright",
+  "bump", ".gitignore", "broken", "one-line", "five-line", "constant", "small fix",
 ];
 
 export function capabilityTier(option: RouteOption): number {
+  const profile = modelProfile(option);
+  if (profile) return profile.tier;
   const name = option.model;
+  if (FAST_CHEAP.some((re) => re.test(name))) return 1;
   if (HIGH_TIER.some((re) => re.test(name))) return 3;
   if (MID_TIER.some((re) => re.test(name))) return 2;
-  if (FAST_CHEAP.some((re) => re.test(name))) return 1;
   return 2; // unknown models are treated as mid-tier
 }
 
 export function cheapness(option: RouteOption): number {
-  // Higher = cheaper/faster, judged purely from the model name.
+  // Higher = cheaper/faster, judged from the profile or the model name.
+  const profile = modelProfile(option);
+  if (profile) return profile.cheapness;
   const name = option.model;
   let score = 0;
-  if (/:free$/i.test(name) || /free/i.test(name)) score += 2;
-  if (/mini|flash|lite|haiku|nano/i.test(name)) score += 3;
-  if (/8b|7b|3b/i.test(name)) score += 1;
+  if (/free/i.test(name)) score += 2;
+  if (/mini|flash|lite|haiku|nano|-low$/i.test(name)) score += 3;
+  if (/lite|nano/i.test(name)) score += 1; // smallest variant of a family
+  if (/\b[1-9]b\b/i.test(name)) score += 1;
   return score;
+}
+
+function countMatches(text: string, keywords: string[]): number {
+  return keywords.filter((kw) => text.includes(kw)).length;
 }
 
 export function taskComplexity(prompt: string): { score: number; level: "simple" | "medium" | "complex" } {
@@ -42,9 +63,11 @@ export function taskComplexity(prompt: string): { score: number; level: "simple"
   if (prompt.length > 300) score += 1;
   if (prompt.length > 800) score += 1;
   if (prompt.length > 2000) score += 1;
-  for (const kw of COMPLEX_KEYWORDS) if (text.includes(kw)) score += 2;
-  for (const kw of SIMPLE_KEYWORDS) if (text.includes(kw)) score -= 2;
-  const level = score >= 3 ? "complex" : score <= 0 ? "simple" : "medium";
+  score += 4 * countMatches(text, COMPLEX_KEYWORDS);
+  score += 2 * countMatches(text, SCOPE_KEYWORDS);
+  score += 1 * countMatches(text, ROUTINE_KEYWORDS);
+  score -= 3 * countMatches(text, SIMPLE_KEYWORDS);
+  const level = score >= 4 ? "complex" : score <= 0 ? "simple" : "medium";
   return { score, level };
 }
 
@@ -72,7 +95,7 @@ export function rankHeuristically(req: SelectRouteRequest): { ranking: number[];
   const best = options[ranking[0]!]!;
   const rationale =
     `Heuristic fallback (no decider model available): task looks ${level}, ` +
-    `so ${best.model}${best.harness ? ` via ${best.harness}` : ""} was ranked first ` +
+    `so ${optionLabel(best)} was ranked first ` +
     (level === "complex"
       ? "as the most capable offered option."
       : level === "simple"

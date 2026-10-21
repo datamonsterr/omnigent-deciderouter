@@ -5,3 +5,9 @@ node_modules/
 *.log
 logs/
 .DS_Store
+dist/
+# Project skill bank: installed from .agents/skills-manifest.json (bun run skills:install)
+.agents/jev_skills/
+.skills-download-*/
+
+.scratch/

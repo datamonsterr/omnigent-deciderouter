@@ -1,0 +1,49 @@
+name: Live eval
+
+# The live job is manual only: it spends calls and reads OPENROUTER_API_KEY.
+# A PR event registers this new workflow before merge, but skips the live job.
+# workflow_dispatch can only be started by users with write access, so the
+# secret never reaches pull requests from forks.
+on:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: live-eval
+  cancel-in-progress: false
+
+jobs:
+  live:
+    name: Probe then golden eval
+    if: github.event_name == 'workflow_dispatch' && github.repository == 'datamonsterr/omnigent-deciderouter'
+    runs-on: namespace-profile-datamonster01
+    timeout-minutes: 15
+    env:
+      OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+        with:
+          bun-version-file: package.json
+      - name: Install (frozen lockfile)
+        run: bun install --frozen-lockfile
+      - name: Decider models exist in the live catalog
+        run: bun run check:models
+      - name: Probe (one free Decisions API call)
+        run: ./eval/probe.sh
+      - name: Golden eval (free mercury only)
+        env:
+          EVAL_OUTPUT: eval-output/live-golden.json
+        run: bun run eval:live
+      - name: Upload results
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: live-golden
+          path: eval-output/
+          if-no-files-found: warn

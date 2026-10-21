@@ -1,7 +1,7 @@
 import type { Config } from "./config";
 import { rankHeuristically } from "./heuristic";
-import { askChatModel, askDecisionsModel, isDecisionModel, sanitizeRanking, type FetchFn } from "./openrouter";
-import type { DecisionResult, SelectRouteRequest } from "./types";
+import { OpenRouterError, askChatModel, askDecisionsModel, isDecisionModel, sanitizeRanking, type FetchFn } from "./openrouter";
+import type { AttemptError, DecisionResult, SelectRouteRequest } from "./types";
 
 /** Per-request override: route_selector.config.decider_models (string[]). */
 export function deciderChain(req: SelectRouteRequest, config: Config): string[] {
@@ -23,28 +23,39 @@ export async function decideRoute(
   config: Config,
   fetchFn: FetchFn = fetch,
 ): Promise<DecisionResult> {
+  const attemptErrors: AttemptError[] = [];
   if (config.openRouterApiKey) {
     const deadline = Date.now() + config.timeoutMs;
-    for (const model of deciderChain(req, config)) {
+    for (const [index, model] of deciderChain(req, config).entries()) {
       const remaining = deadline - Date.now();
       if (remaining <= 0) break;
+      const viaDecisions = isDecisionModel(model, config);
       try {
-        const viaDecisions = isDecisionModel(model, config);
         const answer = viaDecisions
           ? await askDecisionsModel(model, req, config, fetchFn, remaining)
           : await askChatModel(model, req, config, fetchFn, remaining);
         return {
+          attemptErrors,
           ranking: sanitizeRanking(answer.ranking, req.route_options.length),
           rationale: answer.rationale,
           deciderModel: model,
+          servedModel: answer.servedModel,
           source: viaDecisions ? "decisions_api" : "chat",
         };
-      } catch {
-        // Try the next model in the chain.
+      } catch (error) {
+        if (attemptErrors.length < 8) {
+          attemptErrors.push({
+            attempt: index + 1,
+            source: viaDecisions ? "decisions_api" : "chat",
+            error: error instanceof OpenRouterError ? error.message.slice(0, 160) :
+              error instanceof Error && error.name === "AbortError" ? "timeout" :
+              error instanceof SyntaxError ? "invalid_json" : "transport_error",
+          });
+        }
       }
     }
   }
 
   const { ranking, rationale } = rankHeuristically(req);
-  return { ranking, rationale, deciderModel: "local-heuristic", source: "heuristic" };
+  return { ranking, rationale, attemptErrors, deciderModel: "local-heuristic", source: "heuristic" };
 }
