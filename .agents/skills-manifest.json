@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "description": "Project-only skills for the Jev skill bank (.agents/jev_skills). Installed by scripts/install-skills.ts from pinned upstream commits; SKILL.md sha256 is verified after install.",
+  "description": "Project-only skills for the Jev skill bank (.agents/jev_skills). Installed by scripts/install-skills.ts from pinned upstream commits; SKILL.md sha256 is verified in staging before replacement; a mismatch preserves the existing install.",
   "skills": [
     {
       "name": "openrouter-decisions",

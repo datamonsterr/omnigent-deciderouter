@@ -5,6 +5,15 @@ description: Fast, calibrated multi-skill router using TypeSafe Jev decision mod
 
 # Jev Skill Selector
 
+Project wrapper policy: `JEV_PATH` takes precedence and must be a clean checkout
+of `datamonsterr/jev_auto_select_skills` at
+`68cbbeca4e22750c87869578e970b00def6b1450`. The default is
+`$HOME/dev/jev_skill_selector`; arbitrary PATH binaries are never executed.
+Use `run.sh --verify-runtime` for a provenance-only check. For this project, set
+`SKILL_SELECTOR_MODEL=inception/mercury-decide:free` and the exclusive project
+bank as documented in AGENTS.md; the general upstream examples below are not
+project authorization to use paid models or install global hooks.
+
 High-speed, calibrated multi-skill router powered by the **TypeSafe Jev System One** decision model on OpenRouter (`~typesafe/jev-latest`).
 
 Instead of polluting the agent's context window by loading 70+ skills on startup, Jev evaluates the user prompt against your centralized skill bank in a single parallel tensor pass (~400–700ms) and returns only the necessary skills for that specific task.

@@ -2,11 +2,11 @@
 // commits in .agents/skills-manifest.json and verifies each SKILL.md hash.
 // Usage: bun run skills:install
 import { createHash } from "node:crypto";
-import { cpSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
-import { join } from "node:path";
+import { cpSync, existsSync, renameSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { dirname, join } from "node:path";
 import { $ } from "bun";
 
-interface ManifestSkill {
+export interface ManifestSkill {
   name: string;
   source: string;
   commit: string;
@@ -29,30 +29,50 @@ function quoteDescription(skillFile: string): void {
   writeFileSync(skillFile, lines.join("\n"));
 }
 
-mkdirSync(bank, { recursive: true });
-const work = mkdtempSync(join(root, ".skills-download-"));
-let failures = 0;
-try {
-  const archives = new Map<string, string>();
-  for (const skill of manifest.skills) {
-    const key = `${skill.source}@${skill.commit}`;
-    if (!archives.has(key)) {
-      const dir = join(work, String(archives.size));
-      mkdirSync(dir);
-      const url = `https://codeload.github.com/${skill.source}/tar.gz/${skill.commit}`;
-      await $`curl -fsSL ${url} | tar -xz -C ${dir} --strip-components=1`;
-      archives.set(key, dir);
-    }
-    const target = join(bank, skill.name);
-    rmSync(target, { recursive: true, force: true });
-    cpSync(join(archives.get(key)!, skill.path), target, { recursive: true });
-    const skillFile = join(target, "SKILL.md");
+export function installVerifiedSkill(source: string, target: string, skill: ManifestSkill): void {
+  mkdirSync(dirname(target), { recursive: true });
+  const stage = mkdtempSync(join(dirname(target), ".skill-stage-"));
+  const candidate = join(stage, "candidate");
+  const previous = join(stage, "previous");
+  try {
+    cpSync(source, candidate, { recursive: true });
+    const skillFile = join(candidate, "SKILL.md");
     if (skill.patch?.startsWith("quote-description")) quoteDescription(skillFile);
     const digest = createHash("sha256").update(readFileSync(skillFile)).digest("hex");
-    if (digest !== skill.sha256) failures++;
-    console.log(`${digest === skill.sha256 ? "installed" : "HASH MISMATCH"} ${skill.name} <- ${key}`);
+    if (digest !== skill.sha256) throw new Error("Skill hash mismatch");
+    const hadPrevious = existsSync(target);
+    if (hadPrevious) renameSync(target, previous);
+    try {
+      renameSync(candidate, target);
+    } catch (error) {
+      if (hadPrevious) renameSync(previous, target);
+      throw error;
+    }
+  } finally {
+    rmSync(stage, { recursive: true, force: true });
   }
-} finally {
-  rmSync(work, { recursive: true, force: true });
 }
-process.exit(failures ? 1 : 0);
+
+if (import.meta.main) {
+  mkdirSync(bank, { recursive: true });
+  const work = mkdtempSync(join(root, ".skills-download-"));
+  try {
+    const archives = new Map<string, string>();
+    for (const skill of manifest.skills) {
+      const key = `${skill.source}@${skill.commit}`;
+      if (!archives.has(key)) {
+        const dir = join(work, String(archives.size));
+        mkdirSync(dir);
+        await $`gh repo clone ${skill.source} ${dir} -- --no-checkout --filter=blob:none`.quiet();
+        await $`git -C ${dir} checkout --detach ${skill.commit}`.quiet();
+        archives.set(key, dir);
+      }
+      const target = join(bank, skill.name);
+      installVerifiedSkill(join(archives.get(key)!, skill.path), target, skill);
+      console.log(`installed ${skill.name} <- ${key}`);
+    }
+  } finally {
+    rmSync(work, { recursive: true, force: true });
+  }
+
+}
