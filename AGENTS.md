@@ -58,8 +58,8 @@ deciders unless `EVAL_ALLOW_PAID=1`; report any paid run and its cost.
 - Commits follow Conventional Commits. Open PRs against `main`; never push to
   or merge `main` directly.
 - CI runs on `namespace-profile-datamonster01` with pinned action SHAs and
-  read-only permissions. The live workflow is manual (`workflow_dispatch`) and
-  is the only place the `OPENROUTER_API_KEY` secret is used.
+  read-only permissions. The live job runs only on manual `workflow_dispatch` (PR registration skips
+  the job before secret access) and is the only place the `OPENROUTER_API_KEY` secret is used.
 - Do not activate the Omnigent integration or restart `omni-agent.service`
   without the operator; see `deploy/README.md`.
 

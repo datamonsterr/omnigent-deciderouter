@@ -194,8 +194,9 @@ groups and timeouts. Pull requests from forks are skipped so they never run on
 this account's runners. Dependency caching is off: two dev dependencies install
 in about a second.
 
-`.github/workflows/live-eval.yml` is manual (`workflow_dispatch`) and the only
-workflow that reads the `OPENROUTER_API_KEY` secret: catalog check, probe, then
+`.github/workflows/live-eval.yml` runs live calls only on manual
+`workflow_dispatch`. Pull requests register the workflow but skip its live
+job before any secret is loaded. It is the only workflow that reads the `OPENROUTER_API_KEY` secret: catalog check, probe, then
 the live golden eval, with results uploaded as an artifact.
 
 ## Deploying locally

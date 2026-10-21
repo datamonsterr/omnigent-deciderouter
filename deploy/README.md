@@ -82,6 +82,7 @@ Do not overwrite an existing token/config when updating.
 For a new install, create `router.env` without displaying its contents:
 
 ```sh
+set -euo pipefail
 umask 077
 test ! -e "$HOME/.config/omnigent-deciderouter/router.env"
 {

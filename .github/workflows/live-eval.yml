@@ -1,9 +1,11 @@
 name: Live eval
 
-# Manual only: spends OpenRouter calls and reads the OPENROUTER_API_KEY secret.
+# The live job is manual only: it spends calls and reads OPENROUTER_API_KEY.
+# A PR event registers this new workflow before merge, but skips the live job.
 # workflow_dispatch can only be started by users with write access, so the
 # secret never reaches pull requests from forks.
 on:
+  pull_request:
   workflow_dispatch:
 
 permissions:
@@ -16,7 +18,7 @@ concurrency:
 jobs:
   live:
     name: Probe then golden eval
-    if: github.repository == 'datamonsterr/omnigent-deciderouter'
+    if: github.event_name == 'workflow_dispatch' && github.repository == 'datamonsterr/omnigent-deciderouter'
     runs-on: namespace-profile-datamonster01
     timeout-minutes: 15
     env:
