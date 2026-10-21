@@ -1,0 +1,1616 @@
+{
+  "generated_at": "2026-10-21T12:17:49.879Z",
+  "decider_model": "inception/mercury-decide:free",
+  "command": "OPENROUTER_ENV_FILE=<path> bun run eval:live",
+  "summary": {
+    "total": 40,
+    "correct": 34,
+    "invalid": 0,
+    "forbidden": 0,
+    "accuracy": 0.85,
+    "unoffered": 0,
+    "upstream_http_200": 40,
+    "upstream_errors": 0,
+    "fallbacks": 0,
+    "sources": {
+      "decisions_api": 40
+    },
+    "served_models": [
+      "inception/mercury-decide-20260930"
+    ],
+    "latency_ms": {
+      "p50": 468,
+      "p95": 837,
+      "max": 1459
+    },
+    "gates": {
+      "all_http_200": true,
+      "zero_invalid": true,
+      "zero_fallbacks": true,
+      "accuracy_at_least_0_8": true,
+      "p95_under_3000ms": true
+    },
+    "passed": true
+  },
+  "cases": [
+    {
+      "id": "trivial-typo-readme",
+      "selected": {
+        "model": "opencode/deepseek-v4.1-flash-free",
+        "harness": "opencode"
+      },
+      "offered": true,
+      "correct": true,
+      "forbidden": false,
+      "upstream_status": 200,
+      "latency_ms": 602,
+      "source": "decisions_api",
+      "decider_model": "inception/mercury-decide:free",
+      "served_model": "inception/mercury-decide-20260930",
+      "upstream_answer": {
+        "model": "inception/mercury-decide-20260930",
+        "answers": {
+          "route_decision": {
+            "type": "choice",
+            "choice": "option_5",
+            "probabilities": {
+              "option_0": 0.00010804503548579329,
+              "option_1": 0.00009534940915585527,
+              "option_2": 0.46862022126429753,
+              "option_3": 0.00005783234003851071,
+              "option_4": 0.000054328455685247754,
+              "option_5": 0.5310162788014726,
+              "option_6": 0.00004794469386443559
+            },
+            "confidence": 0.4528523252683847
+          }
+        },
+        "usage": {
+          "input_tokens": 675,
+          "output_tokens": 1,
+          "cost": 0
+        },
+        "id": "gen-dec-1792584927-RIvg54XIrhYywdZCWU61",
+        "provider": "Inception"
+      }
+    },
+    {
+      "id": "trivial-rename-var",
+      "selected": {
+        "model": "gemini-3.8-flash-low",
+        "harness": "agy"
+      },
+      "offered": true,
+      "correct": true,
+      "forbidden": false,
+      "upstream_status": 200,
+      "latency_ms": 603,
+      "source": "decisions_api",
+      "decider_model": "inception/mercury-decide:free",
+      "served_model": "inception/mercury-decide-20260930",
+      "upstream_answer": {
+        "model": "inception/mercury-decide-20260930",
+        "answers": {
+          "route_decision": {
+            "type": "choice",
+            "choice": "option_2",
+            "probabilities": {
+              "option_0": 0.000057475875620186236,
+              "option_1": 0.0000693291397850265,
+              "option_2": 0.8173845371393788,
+              "option_3": 0.00003950255310287742,
+              "option_4": 0.000037109214399326045,
+              "option_5": 0.1823831453924804,
+              "option_6": 0.00002890068523335978
+            },
+            "confidence": 0.7869486266626087
+          }
+        },
+        "usage": {
+          "input_tokens": 711,
+          "output_tokens": 1,
+          "cost": 0
+        },
+        "id": "gen-dec-1792584930-IIQ9RCP1k2tseqsRdZWt",
+        "provider": "Inception"
+      }
+    },
+    {
+      "id": "trivial-gitignore",
+      "selected": {
+        "model": "opencode/deepseek-v4.1-flash-free",
+        "harness": "opencode"
+      },
+      "offered": true,
+      "correct": true,
+      "forbidden": false,
+      "upstream_status": 200,
+      "latency_ms": 430,
+      "source": "decisions_api",
+      "decider_model": "inception/mercury-decide:free",
+      "served_model": "inception/mercury-decide-20260930",
+      "upstream_answer": {
+        "model": "inception/mercury-decide-20260930",
+        "answers": {
+          "route_decision": {
+            "type": "choice",
+            "choice": "option_5",
+            "probabilities": {
+              "option_0": 0.00007083830394699792,
+              "option_1": 0.00006251458381757179,
+              "option_2": 0.053391102636205015,
+              "option_3": 0.000042965603225896696,
+              "option_4": 0.000033461645437463625,
+              "option_5": 0.9463800513565095,
+              "option_6": 0.000019065870857502628
+            },
+            "confidence": 0.9374433932492611
+          }
+        },
+        "usage": {
+          "input_tokens": 677,
+          "output_tokens": 1,
+          "cost": 0
+        },
+        "id": "gen-dec-1792584934-tLo0LvjlNkFvAfG145jO",
+        "provider": "Inception"
+      }
+    },
+    {
+      "id": "trivial-bump-version",
+      "selected": {
+        "model": "opencode/deepseek-v4.1-flash-free",
+        "harness": "opencode"
+      },
+      "offered": true,
+      "correct": true,
+      "forbidden": false,
+      "upstream_status": 200,
+      "latency_ms": 424,
+      "source": "decisions_api",
+      "decider_model": "inception/mercury-decide:free",
+      "served_model": "inception/mercury-decide-20260930",
+      "upstream_answer": {
+        "model": "inception/mercury-decide-20260930",
+        "answers": {
+          "route_decision": {
+            "type": "choice",
+            "choice": "option_5",
+            "probabilities": {
+              "option_0": 0.00008690494023734681,
+              "option_1": 0.00008690494023734681,
+              "option_2": 0.20175603979485143,
+              "option_3": 0.00005611004660354699,
+              "option_4": 0.00003403246358295597,
+              "option_5": 0.7979606167012545,
+              "option_6": 0.000019391113232848917
+            },
+            "confidence": 0.7642873861514636
+          }
+        },
+        "usage": {
+          "input_tokens": 705,
+          "output_tokens": 1,
+          "cost": 0
+        },
+        "id": "gen-dec-1792584938-6iQAS2jFSgGNEnN1xBEd",
+        "provider": "Inception"
+      }
+    },
+    {
+      "id": "trivial-comment",
+      "selected": {
+        "model": "opencode/deepseek-v4.1-flash-free",
+        "harness": "opencode"
+      },
+      "offered": true,
+      "correct": true,
+      "forbidden": false,
+      "upstream_status": 200,
+      "latency_ms": 532,
+      "source": "decisions_api",
+      "decider_model": "inception/mercury-decide:free",
+      "served_model": "inception/mercury-decide-20260930",
+      "upstream_answer": {
+        "model": "inception/mercury-decide-20260930",
+        "answers": {
+          "route_decision": {
+            "type": "choice",
+            "choice": "option_5",
+            "probabilities": {
+              "option_0": 0.00015722517201488046,
+              "option_1": 0.00007905778134099495,
+              "option_2": 0.06751997480213486,
+              "option_3": 0.00006976824715863828,
+              "option_4": 0.00005433556552066681,
+              "option_5": 0.9320845567540189,
+              "option_6": 0.0000350816778110447
+            },
+            "confidence": 0.9207653162130219
+          }
+        },
+        "usage": {
+          "input_tokens": 696,
+          "output_tokens": 1,
+          "cost": 0
+        },
+        "id": "gen-dec-1792584941-uoUcKdML8SiM7smyj4JU",
+        "provider": "Inception"
+      }
+    },
+    {
+      "id": "trivial-format",
+      "selected": {
+        "model": "opencode/deepseek-v4.1-flash-free",
+        "harness": "opencode"
+      },
+      "offered": true,
+      "correct": true,
+      "forbidden": false,
+      "upstream_status": 200,
+      "latency_ms": 482,
+      "source": "decisions_api",
+      "decider_model": "inception/mercury-decide:free",
+      "served_model": "inception/mercury-decide-20260930",
+      "upstream_answer": {
+        "model": "inception/mercury-decide-20260930",
+        "answers": {
+          "route_decision": {
+            "type": "choice",
+            "choice": "option_5",
+            "probabilities": {
+              "option_0": 0.000170963920707519,
+              "option_1": 0.00009741230566780373,
+              "option_2": 0.047403545563718404,
+              "option_3": 0.00008596605802546061,
+              "option_4": 0.00007586477993487659,
+              "option_5": 0.9521256398814637,
+              "option_6": 0.00004060749048222087
+            },
+            "confidence": 0.9441465798617077
+          }
+        },
+        "usage": {
+          "input_tokens": 684,
+          "output_tokens": 1,
+          "cost": 0
+        },
+        "id": "gen-dec-1792584945-xCQq5t6PwHIwfmYQliLC",
+        "provider": "Inception"
+      }
+    },
+    {
+      "id": "trivial-codex-only",
+      "selected": {
+        "model": "gpt-6-luna",
+        "harness": "codex"
+      },
+      "offered": true,
+      "correct": true,
+      "forbidden": false,
+      "upstream_status": 200,
+      "latency_ms": 819,
+      "source": "decisions_api",
+      "decider_model": "inception/mercury-decide:free",
+      "served_model": "inception/mercury-decide-20260930",
+      "upstream_answer": {
+        "model": "inception/mercury-decide-20260930",
+        "answers": {
+          "route_decision": {
+            "type": "choice",
+            "choice": "option_0",
+            "probabilities": {
+              "option_0": 0.9995955185352944,
+              "option_1": 0.0004044814647056487
+            },
+            "confidence": 0.9991910370705888
+          }
+        },
+        "usage": {
+          "input_tokens": 278,
+          "output_tokens": 1,
+          "cost": 0
+        },
+        "id": "gen-dec-1792584948-8NLhqqJWOOq2Av6Fdeqv",
+        "provider": "Inception"
+      }
+    },
+    {
+      "id": "trivial-agy-only",
+      "selected": {
+        "model": "gemini-3.8-flash-low",
+        "harness": "agy"
+      },
+      "offered": true,
+      "correct": true,
+      "forbidden": false,
+      "upstream_status": 200,
+      "latency_ms": 389,
+      "source": "decisions_api",
+      "decider_model": "inception/mercury-decide:free",
+      "served_model": "inception/mercury-decide-20260930",
+      "upstream_answer": {
+        "model": "inception/mercury-decide-20260930",
+        "answers": {
+          "route_decision": {
+            "type": "choice",
+            "choice": "option_0",
+            "probabilities": {
+              "option_0": 0.9997923520034584,
+              "option_1": 0.00020342602410490255,
+              "option_2": 0.0000042219724365765355
+            },
+            "confidence": 0.9996885280051876
+          }
+        },
+        "usage": {
+          "input_tokens": 359,
+          "output_tokens": 1,
+          "cost": 0
+        },
+        "id": "gen-dec-1792584952-FQPC7jCmBoDWSzQW5h1X",
+        "provider": "Inception"
+      }
+    },
+    {
+      "id": "trivial-opencode-only",
+      "selected": {
+        "model": "opencode/deepseek-v4.1-flash-free",
+        "harness": "opencode"
+      },
+      "offered": true,
+      "correct": true,
+      "forbidden": false,
+      "upstream_status": 200,
+      "latency_ms": 595,
+      "source": "decisions_api",
+      "decider_model": "inception/mercury-decide:free",
+      "served_model": "inception/mercury-decide-20260930",
+      "upstream_answer": {
+        "model": "inception/mercury-decide-20260930",
+        "answers": {
+          "route_decision": {
+            "type": "choice",
+            "choice": "option_0",
+            "probabilities": {
+              "option_0": 0.9998511615068938,
+              "option_1": 0.00014883849310617822
+            },
+            "confidence": 0.9997023230137876
+          }
+        },
+        "usage": {
+          "input_tokens": 290,
+          "output_tokens": 1,
+          "cost": 0
+        },
+        "id": "gen-dec-1792584956-KYocMH548ptNv8biUJlO",
+        "provider": "Inception"
+      }
+    },
+    {
+      "id": "trivial-script",
+      "selected": {
+        "model": "opencode/deepseek-v4.1-flash-free",
+        "harness": "opencode"
+      },
+      "offered": true,
+      "correct": true,
+      "forbidden": false,
+      "upstream_status": 200,
+      "latency_ms": 477,
+      "source": "decisions_api",
+      "decider_model": "inception/mercury-decide:free",
+      "served_model": "inception/mercury-decide-20260930",
+      "upstream_answer": {
+        "model": "inception/mercury-decide-20260930",
+        "answers": {
+          "route_decision": {
+            "type": "choice",
+            "choice": "option_5",
+            "probabilities": {
+              "option_0": 0.00014538180875221123,
+              "option_1": 0.0000881785243726946,
+              "option_2": 0.02296813747095086,
+              "option_3": 0.00007310256430314393,
+              "option_4": 0.00005348297856025698,
+              "option_5": 0.9766300640674771,
+              "option_6": 0.00004165258558371929
+            },
+            "confidence": 0.9727350747453898
+          }
+        },
+        "usage": {
+          "input_tokens": 677,
+          "output_tokens": 1,
+          "cost": 0
+        },
+        "id": "gen-dec-1792584960-I3FgsLwm1iVRPpo4kest",
+        "provider": "Inception"
+      }
+    },
+    {
+      "id": "routine-endpoint",
+      "selected": {
+        "model": "opencode/deepseek-v4.1-flash-free",
+        "harness": "opencode"
+      },
+      "offered": true,
+      "correct": false,
+      "forbidden": false,
+      "upstream_status": 200,
+      "latency_ms": 608,
+      "source": "decisions_api",
+      "decider_model": "inception/mercury-decide:free",
+      "served_model": "inception/mercury-decide-20260930",
+      "upstream_answer": {
+        "model": "inception/mercury-decide-20260930",
+        "answers": {
+          "route_decision": {
+            "type": "choice",
+            "choice": "option_5",
+            "probabilities": {
+              "option_0": 0.008546014736007855,
+              "option_1": 0.00024243166180716193,
+              "option_2": 0.0010206759067725442,
+              "option_3": 0.11797406629123042,
+              "option_4": 0.00035273615475870946,
+              "option_5": 0.8717170330136521,
+              "option_6": 0.00014704223577112797
+            },
+            "confidence": 0.8503365385159275
+          }
+        },
+        "usage": {
+          "input_tokens": 713,
+          "output_tokens": 1,
+          "cost": 0
+        },
+        "id": "gen-dec-1792584963-GYnDpEqn9zMuHazGBkup",
+        "provider": "Inception"
+      }
+    },
+    {
+      "id": "routine-unit-tests",
+      "selected": {
+        "model": "opencode/deepseek-v4.1-flash-free",
+        "harness": "opencode"
+      },
+      "offered": true,
+      "correct": false,
+      "forbidden": false,
+      "upstream_status": 200,
+      "latency_ms": 1214,
+      "source": "decisions_api",
+      "decider_model": "inception/mercury-decide:free",
+      "served_model": "inception/mercury-decide-20260930",
+      "upstream_answer": {
+        "model": "inception/mercury-decide-20260930",
+        "answers": {
+          "route_decision": {
+            "type": "choice",
+            "choice": "option_5",
+            "probabilities": {
+              "option_0": 0.0027886791796654414,
+              "option_1": 0.0001782743805555162,
+              "option_2": 0.0007050885166157222,
+              "option_3": 0.003159987498537561,
+              "option_4": 0.00025938769315465404,
+              "option_5": 0.9928387694809533,
+              "option_6": 0.00006981325051786107
+            },
+            "confidence": 0.9916452310611121
+          }
+        },
+        "usage": {
+          "input_tokens": 686,
+          "output_tokens": 1,
+          "cost": 0
+        },
+        "id": "gen-dec-1792584968-J2v56g2H3auk19wVgX3e",
+        "provider": "Inception"
+      }
+    },
+    {
+      "id": "routine-ci-repair",
+      "selected": {
+        "model": "opencode/deepseek-v4.1-flash-free",
+        "harness": "opencode"
+      },
+      "offered": true,
+      "correct": true,
+      "forbidden": false,
+      "upstream_status": 200,
+      "latency_ms": 532,
+      "source": "decisions_api",
+      "decider_model": "inception/mercury-decide:free",
+      "served_model": "inception/mercury-decide-20260930",
+      "upstream_answer": {
+        "model": "inception/mercury-decide-20260930",
+        "answers": {
+          "route_decision": {
+            "type": "choice",
+            "choice": "option_5",
+            "probabilities": {
+              "option_0": 0.0009576483436645073,
+              "option_1": 0.00017714713122997177,
+              "option_2": 0.3202895650444925,
+              "option_3": 0.00029206624330236144,
+              "option_4": 0.00014686012999177116,
+              "option_5": 0.6780530347276118,
+              "option_6": 0.00008367837970706192
+            },
+            "confidence": 0.6243952071822136
+          }
+        },
+        "usage": {
+          "input_tokens": 682,
+          "output_tokens": 1,
+          "cost": 0
+        },
+        "id": "gen-dec-1792584971-vmER1DNujUaOkhNBClyI",
+        "provider": "Inception"
+      }
+    },
+    {
+      "id": "routine-cli-flag",
+      "selected": {
+        "model": "opencode/deepseek-v4.1-flash-free",
+        "harness": "opencode"
+      },
+      "offered": true,
+      "correct": false,
+      "forbidden": false,
+      "upstream_status": 200,
+      "latency_ms": 474,
+      "source": "decisions_api",
+      "decider_model": "inception/mercury-decide:free",
+      "served_model": "inception/mercury-decide-20260930",
+      "upstream_answer": {
+        "model": "inception/mercury-decide-20260930",
+        "answers": {
+          "route_decision": {
+            "type": "choice",
+            "choice": "option_5",
+            "probabilities": {
+              "option_0": 0.07646084503904117,
+              "option_1": 0.0005837856167413768,
+              "option_2": 0.0016892396928686582,
+              "option_3": 0.09817766841155168,
+              "option_4": 0.0007979403304736584,
+              "option_5": 0.8220314674887043,
+              "option_6": 0.00025905342061927766
+            },
+            "confidence": 0.7923700454034882
+          }
+        },
+        "usage": {
+          "input_tokens": 714,
+          "output_tokens": 1,
+          "cost": 0
+        },
+        "id": "gen-dec-1792584975-Z9lIGUDBhIxN33z95McJ",
+        "provider": "Inception"
+      }
+    },
+    {
+      "id": "routine-docs-section",
+      "selected": {
+        "model": "opencode/deepseek-v4.1-flash-free",
+        "harness": "opencode"
+      },
+      "offered": true,
+      "correct": true,
+      "forbidden": false,
+      "upstream_status": 200,
+      "latency_ms": 453,
+      "source": "decisions_api",
+      "decider_model": "inception/mercury-decide:free",
+      "served_model": "inception/mercury-decide-20260930",
+      "upstream_answer": {
+        "model": "inception/mercury-decide-20260930",
+        "answers": {
+          "route_decision": {
+            "type": "choice",
+            "choice": "option_5",
+            "probabilities": {
+              "option_0": 0.0001784246856206369,
+              "option_1": 0.00005792601442437763,
+              "option_2": 0.005908611287468893,
+              "option_3": 0.0001082200422785041,
+              "option_4": 0.000051119528308583854,
+              "option_5": 0.9936756797469802,
+              "option_6": 0.000020018694918705347
+            },
+            "confidence": 0.9926216263714771
+          }
+        },
+        "usage": {
+          "input_tokens": 693,
+          "output_tokens": 1,
+          "cost": 0
+        },
+        "id": "gen-dec-1792584978-fkFdVNrPsIPs5z7oAjsv",
+        "provider": "Inception"
+      }
+    },
+    {
+      "id": "routine-codex-only",
+      "selected": {
+        "model": "gpt-6-luna",
+        "harness": "codex"
+      },
+      "offered": true,
+      "correct": true,
+      "forbidden": false,
+      "upstream_status": 200,
+      "latency_ms": 441,
+      "source": "decisions_api",
+      "decider_model": "inception/mercury-decide:free",
+      "served_model": "inception/mercury-decide-20260930",
+      "upstream_answer": {
+        "model": "inception/mercury-decide-20260930",
+        "answers": {
+          "route_decision": {
+            "type": "choice",
+            "choice": "option_0",
+            "probabilities": {
+              "option_0": 0.9998313472602233,
+              "option_1": 0.0001686527397766967
+            },
+            "confidence": 0.9996626945204465
+          }
+        },
+        "usage": {
+          "input_tokens": 275,
+          "output_tokens": 1,
+          "cost": 0
+        },
+        "id": "gen-dec-1792584982-osGmalFX5NpJbb6znDdq",
+        "provider": "Inception"
+      }
+    },
+    {
+      "id": "routine-agy-only",
+      "selected": {
+        "model": "gemini-3.8-flash-medium",
+        "harness": "agy"
+      },
+      "offered": true,
+      "correct": true,
+      "forbidden": false,
+      "upstream_status": 200,
+      "latency_ms": 398,
+      "source": "decisions_api",
+      "decider_model": "inception/mercury-decide:free",
+      "served_model": "inception/mercury-decide-20260930",
+      "upstream_answer": {
+        "model": "inception/mercury-decide-20260930",
+        "answers": {
+          "route_decision": {
+            "type": "choice",
+            "choice": "option_1",
+            "probabilities": {
+              "option_0": 0.00043038301782073274,
+              "option_1": 0.9991653095532254,
+              "option_2": 0.0004043074289538812
+            },
+            "confidence": 0.998747964329838
+          }
+        },
+        "usage": {
+          "input_tokens": 355,
+          "output_tokens": 1,
+          "cost": 0
+        },
+        "id": "gen-dec-1792584985-n1loWr1UkFZt0oJmCjPU",
+        "provider": "Inception"
+      }
+    },
+    {
+      "id": "routine-dto",
+      "selected": {
+        "model": "opencode/deepseek-v4.1-flash-free",
+        "harness": "opencode"
+      },
+      "offered": true,
+      "correct": false,
+      "forbidden": false,
+      "upstream_status": 200,
+      "latency_ms": 467,
+      "source": "decisions_api",
+      "decider_model": "inception/mercury-decide:free",
+      "served_model": "inception/mercury-decide-20260930",
+      "upstream_answer": {
+        "model": "inception/mercury-decide-20260930",
+        "answers": {
+          "route_decision": {
+            "type": "choice",
+            "choice": "option_5",
+            "probabilities": {
+              "option_0": 0.026737585824120898,
+              "option_1": 0.0005212998087200331,
+              "option_2": 0.003851913530994143,
+              "option_3": 0.08235756235484909,
+              "option_4": 0.0008074049384177654,
+              "option_5": 0.8854272058653538,
+              "option_6": 0.00029702767754419035
+            },
+            "confidence": 0.8663317401762461
+          }
+        },
+        "usage": {
+          "input_tokens": 702,
+          "output_tokens": 1,
+          "cost": 0
+        },
+        "id": "gen-dec-1792584989-wUN6N5Hc3VEYr95ME0Qe",
+        "provider": "Inception"
+      }
+    },
+    {
+      "id": "multi-settled-feature",
+      "selected": {
+        "model": "gpt-6.1-sol",
+        "harness": "codex"
+      },
+      "offered": true,
+      "correct": true,
+      "forbidden": false,
+      "upstream_status": 200,
+      "latency_ms": 402,
+      "source": "decisions_api",
+      "decider_model": "inception/mercury-decide:free",
+      "served_model": "inception/mercury-decide-20260930",
+      "upstream_answer": {
+        "model": "inception/mercury-decide-20260930",
+        "answers": {
+          "route_decision": {
+            "type": "choice",
+            "choice": "option_1",
+            "probabilities": {
+              "option_0": 0.34864513533394575,
+              "option_1": 0.6513548646660542
+            },
+            "confidence": 0.3027097293321084
+          }
+        },
+        "usage": {
+          "input_tokens": 281,
+          "output_tokens": 1,
+          "cost": 0
+        },
+        "id": "gen-dec-1792584993-rWNv4CAoPrLQrsozrmfT",
+        "provider": "Inception"
+      }
+    },
+    {
+      "id": "multi-settled-react",
+      "selected": {
+        "model": "gemini-3.8-flash-medium",
+        "harness": "agy"
+      },
+      "offered": true,
+      "correct": true,
+      "forbidden": false,
+      "upstream_status": 200,
+      "latency_ms": 475,
+      "source": "decisions_api",
+      "decider_model": "inception/mercury-decide:free",
+      "served_model": "inception/mercury-decide-20260930",
+      "upstream_answer": {
+        "model": "inception/mercury-decide-20260930",
+        "answers": {
+          "route_decision": {
+            "type": "choice",
+            "choice": "option_3",
+            "probabilities": {
+              "option_0": 0.06922643997152336,
+              "option_1": 0.3983706567104784,
+              "option_2": 0.0010511477177615944,
+              "option_3": 0.5115180484788412,
+              "option_4": 0.01983370712139544
+            },
+            "confidence": 0.38939756059855146
+          }
+        },
+        "usage": {
+          "input_tokens": 525,
+          "output_tokens": 1,
+          "cost": 0
+        },
+        "id": "gen-dec-1792584996-e4lBUzUakESNWRMEgDG1",
+        "provider": "Inception"
+      }
+    },
+    {
+      "id": "multi-settled-plugin",
+      "selected": {
+        "model": "gpt-6-luna",
+        "harness": "codex"
+      },
+      "offered": true,
+      "correct": false,
+      "forbidden": false,
+      "upstream_status": 200,
+      "latency_ms": 627,
+      "source": "decisions_api",
+      "decider_model": "inception/mercury-decide:free",
+      "served_model": "inception/mercury-decide-20260930",
+      "upstream_answer": {
+        "model": "inception/mercury-decide-20260930",
+        "answers": {
+          "route_decision": {
+            "type": "choice",
+            "choice": "option_0",
+            "probabilities": {
+              "option_0": 0.5483960010275485,
+              "option_1": 0.016560124310295053,
+              "option_2": 0.0006835179615274576,
+              "option_3": 0.3769066920380771,
+              "option_4": 0.008863995794780588,
+              "option_5": 0.03972567307299073,
+              "option_6": 0.008863995794780588
+            },
+            "confidence": 0.4731286678654732
+          }
+        },
+        "usage": {
+          "input_tokens": 693,
+          "output_tokens": 1,
+          "cost": 0
+        },
+        "id": "gen-dec-1792585000-8udVwkgPew56G8EwPjVD",
+        "provider": "Inception"
+      }
+    },
+    {
+      "id": "multi-settled-codex-agy",
+      "selected": {
+        "model": "gpt-6.1-sol",
+        "harness": "codex"
+      },
+      "offered": true,
+      "correct": true,
+      "forbidden": false,
+      "upstream_status": 200,
+      "latency_ms": 438,
+      "source": "decisions_api",
+      "decider_model": "inception/mercury-decide:free",
+      "served_model": "inception/mercury-decide-20260930",
+      "upstream_answer": {
+        "model": "inception/mercury-decide-20260930",
+        "answers": {
+          "route_decision": {
+            "type": "choice",
+            "choice": "option_1",
+            "probabilities": {
+              "option_0": 0.20081236161242447,
+              "option_1": 0.5458645935010001,
+              "option_2": 0.0017373669314689343,
+              "option_3": 0.20081236161242447,
+              "option_4": 0.050773316342681986
+            },
+            "confidence": 0.43233074187625015
+          }
+        },
+        "usage": {
+          "input_tokens": 521,
+          "output_tokens": 1,
+          "cost": 0
+        },
+        "id": "gen-dec-1792585003-UB5HV3kDcn4wanw5fhGw",
+        "provider": "Inception"
+      }
+    },
+    {
+      "id": "complex-race",
+      "selected": {
+        "model": "gemini-3.8-flash-high",
+        "harness": "agy"
+      },
+      "offered": true,
+      "correct": true,
+      "forbidden": false,
+      "upstream_status": 200,
+      "latency_ms": 450,
+      "source": "decisions_api",
+      "decider_model": "inception/mercury-decide:free",
+      "served_model": "inception/mercury-decide-20260930",
+      "upstream_answer": {
+        "model": "inception/mercury-decide-20260930",
+        "answers": {
+          "route_decision": {
+            "type": "choice",
+            "choice": "option_4",
+            "probabilities": {
+              "option_0": 0.0000840670132396603,
+              "option_1": 0.00857506438631507,
+              "option_2": 0.000042271548922602375,
+              "option_3": 0.00007418887879353839,
+              "option_4": 0.991142837866238,
+              "option_5": 0.00005427774321938076,
+              "option_6": 0.000027292563271702768
+            },
+            "confidence": 0.9896666441772776
+          }
+        },
+        "usage": {
+          "input_tokens": 703,
+          "output_tokens": 1,
+          "cost": 0
+        },
+        "id": "gen-dec-1792585007-8QSjRju8UrshbeuDPXRz",
+        "provider": "Inception"
+      }
+    },
+    {
+      "id": "complex-security",
+      "selected": {
+        "model": "gemini-3.8-flash-high",
+        "harness": "agy"
+      },
+      "offered": true,
+      "correct": true,
+      "forbidden": false,
+      "upstream_status": 200,
+      "latency_ms": 485,
+      "source": "decisions_api",
+      "decider_model": "inception/mercury-decide:free",
+      "served_model": "inception/mercury-decide-20260930",
+      "upstream_answer": {
+        "model": "inception/mercury-decide-20260930",
+        "answers": {
+          "route_decision": {
+            "type": "choice",
+            "choice": "option_4",
+            "probabilities": {
+              "option_0": 0.00013949729117510625,
+              "option_1": 0.11913888387676148,
+              "option_2": 0.0000746675193489169,
+              "option_3": 0.00010864059960351252,
+              "option_4": 0.8803239227650719,
+              "option_5": 0.0001484940934899518,
+              "option_6": 0.0000658938545490945
+            },
+            "confidence": 0.8603779098925839
+          }
+        },
+        "usage": {
+          "input_tokens": 717,
+          "output_tokens": 1,
+          "cost": 0
+        },
+        "id": "gen-dec-1792585010-wxPyQtcROZ7JV7rpuy4b",
+        "provider": "Inception"
+      }
+    },
+    {
+      "id": "complex-architecture",
+      "selected": {
+        "model": "gpt-6.1-sol",
+        "harness": "codex"
+      },
+      "offered": true,
+      "correct": true,
+      "forbidden": false,
+      "upstream_status": 200,
+      "latency_ms": 837,
+      "source": "decisions_api",
+      "decider_model": "inception/mercury-decide:free",
+      "served_model": "inception/mercury-decide-20260930",
+      "upstream_answer": {
+        "model": "inception/mercury-decide-20260930",
+        "answers": {
+          "route_decision": {
+            "type": "choice",
+            "choice": "option_1",
+            "probabilities": {
+              "option_0": 0.00019959238492969937,
+              "option_1": 0.8656861067741676,
+              "option_2": 0.0001371777062905032,
+              "option_3": 0.0006544385472868523,
+              "option_4": 0.1327572681589425,
+              "option_5": 0.00030913473315576513,
+              "option_6": 0.00025628169522705737
+            },
+            "confidence": 0.8433004579031954
+          }
+        },
+        "usage": {
+          "input_tokens": 721,
+          "output_tokens": 1,
+          "cost": 0
+        },
+        "id": "gen-dec-1792585014-uvRZQinRfm2IFoIz2io8",
+        "provider": "Inception"
+      }
+    },
+    {
+      "id": "complex-algorithm",
+      "selected": {
+        "model": "gemini-3.8-flash-high",
+        "harness": "agy"
+      },
+      "offered": true,
+      "correct": true,
+      "forbidden": false,
+      "upstream_status": 200,
+      "latency_ms": 446,
+      "source": "decisions_api",
+      "decider_model": "inception/mercury-decide:free",
+      "served_model": "inception/mercury-decide-20260930",
+      "upstream_answer": {
+        "model": "inception/mercury-decide-20260930",
+        "answers": {
+          "route_decision": {
+            "type": "choice",
+            "choice": "option_4",
+            "probabilities": {
+              "option_0": 0.000875082284785326,
+              "option_1": 0.20115241034087378,
+              "option_2": 0.00013419821476983793,
+              "option_3": 0.0016348689409707382,
+              "option_4": 0.7955731684787009,
+              "option_5": 0.0004683977938258555,
+              "option_6": 0.00016187394607367195
+            },
+            "confidence": 0.7615020298918177
+          }
+        },
+        "usage": {
+          "input_tokens": 694,
+          "output_tokens": 1,
+          "cost": 0
+        },
+        "id": "gen-dec-1792585018-lKJGSJJ05JRPFvd1kIwG",
+        "provider": "Inception"
+      }
+    },
+    {
+      "id": "complex-flaky",
+      "selected": {
+        "model": "gpt-6.1-sol",
+        "harness": "codex"
+      },
+      "offered": true,
+      "correct": true,
+      "forbidden": false,
+      "upstream_status": 200,
+      "latency_ms": 447,
+      "source": "decisions_api",
+      "decider_model": "inception/mercury-decide:free",
+      "served_model": "inception/mercury-decide-20260930",
+      "upstream_answer": {
+        "model": "inception/mercury-decide-20260930",
+        "answers": {
+          "route_decision": {
+            "type": "choice",
+            "choice": "option_1",
+            "probabilities": {
+              "option_0": 0.0001417270973756973,
+              "option_1": 0.9520787892486721,
+              "option_2": 0.00006289101822606494,
+              "option_3": 0.00010368975948530271,
+              "option_4": 0.047401214067499385,
+              "option_5": 0.00018198119526377382,
+              "option_6": 0.00002970761347781862
+            },
+            "confidence": 0.9440919207901173
+          }
+        },
+        "usage": {
+          "input_tokens": 706,
+          "output_tokens": 1,
+          "cost": 0
+        },
+        "id": "gen-dec-1792585022-yWtV0Vmr1tSCmozQab8a",
+        "provider": "Inception"
+      }
+    },
+    {
+      "id": "complex-memory-leak",
+      "selected": {
+        "model": "gemini-3.8-flash-high",
+        "harness": "agy"
+      },
+      "offered": true,
+      "correct": true,
+      "forbidden": false,
+      "upstream_status": 200,
+      "latency_ms": 472,
+      "source": "decisions_api",
+      "decider_model": "inception/mercury-decide:free",
+      "served_model": "inception/mercury-decide-20260930",
+      "upstream_answer": {
+        "model": "inception/mercury-decide-20260930",
+        "answers": {
+          "route_decision": {
+            "type": "choice",
+            "choice": "option_4",
+            "probabilities": {
+              "option_0": 0.00014085486252515177,
+              "option_1": 0.16442832113527187,
+              "option_2": 0.00006653512584781548,
+              "option_3": 0.0001499392206696609,
+              "option_4": 0.8350359038619198,
+              "option_5": 0.00010305161883653167,
+              "option_6": 0.00007539417492905872
+            },
+            "confidence": 0.8075418878389066
+          }
+        },
+        "usage": {
+          "input_tokens": 705,
+          "output_tokens": 1,
+          "cost": 0
+        },
+        "id": "gen-dec-1792585025-34bFNncynv2WsH9oOK0X",
+        "provider": "Inception"
+      }
+    },
+    {
+      "id": "complex-codex-only",
+      "selected": {
+        "model": "gpt-6.1-sol",
+        "harness": "codex"
+      },
+      "offered": true,
+      "correct": true,
+      "forbidden": false,
+      "upstream_status": 200,
+      "latency_ms": 392,
+      "source": "decisions_api",
+      "decider_model": "inception/mercury-decide:free",
+      "served_model": "inception/mercury-decide-20260930",
+      "upstream_answer": {
+        "model": "inception/mercury-decide-20260930",
+        "answers": {
+          "route_decision": {
+            "type": "choice",
+            "choice": "option_1",
+            "probabilities": {
+              "option_0": 0.000016701416473164598,
+              "option_1": 0.9999832985835269
+            },
+            "confidence": 0.9999665971670537
+          }
+        },
+        "usage": {
+          "input_tokens": 282,
+          "output_tokens": 1,
+          "cost": 0
+        },
+        "id": "gen-dec-1792585029-TRAtsittttUAxg6y6sv3",
+        "provider": "Inception"
+      }
+    },
+    {
+      "id": "complex-agy-only",
+      "selected": {
+        "model": "gemini-3.8-flash-high",
+        "harness": "agy"
+      },
+      "offered": true,
+      "correct": true,
+      "forbidden": false,
+      "upstream_status": 200,
+      "latency_ms": 445,
+      "source": "decisions_api",
+      "decider_model": "inception/mercury-decide:free",
+      "served_model": "inception/mercury-decide-20260930",
+      "upstream_answer": {
+        "model": "inception/mercury-decide-20260930",
+        "answers": {
+          "route_decision": {
+            "type": "choice",
+            "choice": "option_2",
+            "probabilities": {
+              "option_0": 0.000010129131773721894,
+              "option_1": 0.00008481018198510611,
+              "option_2": 0.9999050606862412
+            },
+            "confidence": 0.9998575910293618
+          }
+        },
+        "usage": {
+          "input_tokens": 358,
+          "output_tokens": 1,
+          "cost": 0
+        },
+        "id": "gen-dec-1792585032-cBqqQjdrCisNtKDhBctt",
+        "provider": "Inception"
+      }
+    },
+    {
+      "id": "complex-migration",
+      "selected": {
+        "model": "gpt-6.1-sol",
+        "harness": "codex"
+      },
+      "offered": true,
+      "correct": true,
+      "forbidden": false,
+      "upstream_status": 200,
+      "latency_ms": 1459,
+      "source": "decisions_api",
+      "decider_model": "inception/mercury-decide:free",
+      "served_model": "inception/mercury-decide-20260930",
+      "upstream_answer": {
+        "model": "inception/mercury-decide-20260930",
+        "answers": {
+          "route_decision": {
+            "type": "choice",
+            "choice": "option_1",
+            "probabilities": {
+              "option_0": 0.000823672182547586,
+              "option_1": 0.7971295644398213,
+              "option_2": 0.0003225546612227942,
+              "option_3": 0.0028748984016121913,
+              "option_4": 0.1778636447221306,
+              "option_5": 0.0022389731264263043,
+              "option_6": 0.018746692466239254
+            },
+            "confidence": 0.7633178251797915
+          }
+        },
+        "usage": {
+          "input_tokens": 726,
+          "output_tokens": 1,
+          "cost": 0
+        },
+        "id": "gen-dec-1792585036-GYxt0negOo7eOl6pFk3j",
+        "provider": "Inception"
+      }
+    },
+    {
+      "id": "complex-crypto",
+      "selected": {
+        "model": "gpt-6.1-sol",
+        "harness": "codex"
+      },
+      "offered": true,
+      "correct": true,
+      "forbidden": false,
+      "upstream_status": 200,
+      "latency_ms": 446,
+      "source": "decisions_api",
+      "decider_model": "inception/mercury-decide:free",
+      "served_model": "inception/mercury-decide-20260930",
+      "upstream_answer": {
+        "model": "inception/mercury-decide-20260930",
+        "answers": {
+          "route_decision": {
+            "type": "choice",
+            "choice": "option_1",
+            "probabilities": {
+              "option_0": 0.00004465616417416996,
+              "option_1": 0.9240228617172324,
+              "option_2": 0.00003940892656501417,
+              "option_3": 0.00004465616417416996,
+              "option_4": 0.07584841702785425
+            },
+            "confidence": 0.9050285771465405
+          }
+        },
+        "usage": {
+          "input_tokens": 530,
+          "output_tokens": 1,
+          "cost": 0
+        },
+        "id": "gen-dec-1792585040-YD3LQ9GW07sfBL06j6C1",
+        "provider": "Inception"
+      }
+    },
+    {
+      "id": "long-orchestration",
+      "selected": {
+        "model": "opencode-go/muse-spark-1.3-contributor",
+        "harness": "opencode"
+      },
+      "offered": true,
+      "correct": true,
+      "forbidden": false,
+      "upstream_status": 200,
+      "latency_ms": 409,
+      "source": "decisions_api",
+      "decider_model": "inception/mercury-decide:free",
+      "served_model": "inception/mercury-decide-20260930",
+      "upstream_answer": {
+        "model": "inception/mercury-decide-20260930",
+        "answers": {
+          "route_decision": {
+            "type": "choice",
+            "choice": "option_1",
+            "probabilities": {
+              "option_0": 0.000035356256355782954,
+              "option_1": 0.9999646437436441
+            },
+            "confidence": 0.9999292874872885
+          }
+        },
+        "usage": {
+          "input_tokens": 296,
+          "output_tokens": 1,
+          "cost": 0
+        },
+        "id": "gen-dec-1792585044-yuD2ERn71CQ6qdIylm5k",
+        "provider": "Inception"
+      }
+    },
+    {
+      "id": "long-multistep",
+      "selected": {
+        "model": "opencode-go/muse-spark-1.3-contributor",
+        "harness": "opencode"
+      },
+      "offered": true,
+      "correct": true,
+      "forbidden": false,
+      "upstream_status": 200,
+      "latency_ms": 458,
+      "source": "decisions_api",
+      "decider_model": "inception/mercury-decide:free",
+      "served_model": "inception/mercury-decide-20260930",
+      "upstream_answer": {
+        "model": "inception/mercury-decide-20260930",
+        "answers": {
+          "route_decision": {
+            "type": "choice",
+            "choice": "option_6",
+            "probabilities": {
+              "option_0": 0.00005733692526599056,
+              "option_1": 0.015897932675306557,
+              "option_2": 0.00002708404573266515,
+              "option_3": 0.000023901586468536522,
+              "option_4": 0.0003979969569233451,
+              "option_5": 0.000025443106355103215,
+              "option_6": 0.9835703047039479
+            },
+            "confidence": 0.9808320221546059
+          }
+        },
+        "usage": {
+          "input_tokens": 698,
+          "output_tokens": 1,
+          "cost": 0
+        },
+        "id": "gen-dec-1792585047-nQMc94ZcyOyyKwoewpd5",
+        "provider": "Inception"
+      }
+    },
+    {
+      "id": "long-opencode-small",
+      "selected": {
+        "model": "opencode/deepseek-v4.1-flash-free",
+        "harness": "opencode"
+      },
+      "offered": true,
+      "correct": true,
+      "forbidden": false,
+      "upstream_status": 200,
+      "latency_ms": 580,
+      "source": "decisions_api",
+      "decider_model": "inception/mercury-decide:free",
+      "served_model": "inception/mercury-decide-20260930",
+      "upstream_answer": {
+        "model": "inception/mercury-decide-20260930",
+        "answers": {
+          "route_decision": {
+            "type": "choice",
+            "choice": "option_0",
+            "probabilities": {
+              "option_0": 0.9999203270155138,
+              "option_1": 0.00007967298448622211
+            },
+            "confidence": 0.9998406540310276
+          }
+        },
+        "usage": {
+          "input_tokens": 286,
+          "output_tokens": 1,
+          "cost": 0
+        },
+        "id": "gen-dec-1792585051-ASXeJDVO0Ev5725x8bx8",
+        "provider": "Inception"
+      }
+    },
+    {
+      "id": "design-ui-spec",
+      "selected": {
+        "model": "gemini-3.8-flash-medium",
+        "harness": "agy"
+      },
+      "offered": true,
+      "correct": true,
+      "forbidden": false,
+      "upstream_status": 200,
+      "latency_ms": 389,
+      "source": "decisions_api",
+      "decider_model": "inception/mercury-decide:free",
+      "served_model": "inception/mercury-decide-20260930",
+      "upstream_answer": {
+        "model": "inception/mercury-decide-20260930",
+        "answers": {
+          "route_decision": {
+            "type": "choice",
+            "choice": "option_1",
+            "probabilities": {
+              "option_0": 0.00048783754034886437,
+              "option_1": 0.9994721182967283,
+              "option_2": 0.000040044162922763
+            },
+            "confidence": 0.9992081774450925
+          }
+        },
+        "usage": {
+          "input_tokens": 364,
+          "output_tokens": 1,
+          "cost": 0
+        },
+        "id": "gen-dec-1792585055-saeTaBkw1oJ3h4Sq4v07",
+        "provider": "Inception"
+      }
+    },
+    {
+      "id": "design-landing",
+      "selected": {
+        "model": "gemini-3.8-flash-medium",
+        "harness": "agy"
+      },
+      "offered": true,
+      "correct": true,
+      "forbidden": false,
+      "upstream_status": 200,
+      "latency_ms": 468,
+      "source": "decisions_api",
+      "decider_model": "inception/mercury-decide:free",
+      "served_model": "inception/mercury-decide-20260930",
+      "upstream_answer": {
+        "model": "inception/mercury-decide-20260930",
+        "answers": {
+          "route_decision": {
+            "type": "choice",
+            "choice": "option_3",
+            "probabilities": {
+              "option_0": 0.012419932797035052,
+              "option_1": 0.00020074942082545376,
+              "option_2": 0.0006582323237430179,
+              "option_3": 0.986637400649382,
+              "option_4": 0.00008368480901458947
+            },
+            "confidence": 0.9832967508117274
+          }
+        },
+        "usage": {
+          "input_tokens": 519,
+          "output_tokens": 1,
+          "cost": 0
+        },
+        "id": "gen-dec-1792585058-uX0uO7QbViKZHQ7b0jRj",
+        "provider": "Inception"
+      }
+    },
+    {
+      "id": "guardrail-injection",
+      "selected": {
+        "model": "gemini-3.8-flash-low",
+        "harness": "agy"
+      },
+      "offered": true,
+      "correct": true,
+      "forbidden": false,
+      "upstream_status": 200,
+      "latency_ms": 445,
+      "source": "decisions_api",
+      "decider_model": "inception/mercury-decide:free",
+      "served_model": "inception/mercury-decide-20260930",
+      "upstream_answer": {
+        "model": "inception/mercury-decide-20260930",
+        "answers": {
+          "route_decision": {
+            "type": "choice",
+            "choice": "option_2",
+            "probabilities": {
+              "option_0": 0.00006943166876716313,
+              "option_1": 0.000028943425671928835,
+              "option_2": 0.9874122128058641,
+              "option_3": 0.000021175462576838592,
+              "option_4": 0.000023994942661919122,
+              "option_5": 0.012429688026055631,
+              "option_6": 0.000014553668402500617
+            },
+            "confidence": 0.985314248273508
+          }
+        },
+        "usage": {
+          "input_tokens": 702,
+          "output_tokens": 1,
+          "cost": 0
+        },
+        "id": "gen-dec-1792585062-kqLfMmbqnl5jJe7OlaXy",
+        "provider": "Inception"
+      }
+    },
+    {
+      "id": "routine-sql-query",
+      "selected": {
+        "model": "opencode/deepseek-v4.1-flash-free",
+        "harness": "opencode"
+      },
+      "offered": true,
+      "correct": false,
+      "forbidden": false,
+      "upstream_status": 200,
+      "latency_ms": 716,
+      "source": "decisions_api",
+      "decider_model": "inception/mercury-decide:free",
+      "served_model": "inception/mercury-decide-20260930",
+      "upstream_answer": {
+        "model": "inception/mercury-decide-20260930",
+        "answers": {
+          "route_decision": {
+            "type": "choice",
+            "choice": "option_5",
+            "probabilities": {
+              "option_0": 0.16025758218391636,
+              "option_1": 0.0017803009257082087,
+              "option_2": 0.006213860798208444,
+              "option_3": 0.11014331807996883,
+              "option_4": 0.00259032256234228,
+              "option_5": 0.718224611702938,
+              "option_6": 0.0007900037469178741
+            },
+            "confidence": 0.6712620469867611
+          }
+        },
+        "usage": {
+          "input_tokens": 715,
+          "output_tokens": 1,
+          "cost": 0
+        },
+        "id": "gen-dec-1792585065-IAn33ZAE7QvKPybFnnhH",
+        "provider": "Inception"
+      }
+    },
+    {
+      "id": "complex-distributed",
+      "selected": {
+        "model": "gpt-6.1-sol",
+        "harness": "codex"
+      },
+      "offered": true,
+      "correct": true,
+      "forbidden": false,
+      "upstream_status": 200,
+      "latency_ms": 492,
+      "source": "decisions_api",
+      "decider_model": "inception/mercury-decide:free",
+      "served_model": "inception/mercury-decide-20260930",
+      "upstream_answer": {
+        "model": "inception/mercury-decide-20260930",
+        "answers": {
+          "route_decision": {
+            "type": "choice",
+            "choice": "option_1",
+            "probabilities": {
+              "option_0": 0.00010480997944990801,
+              "option_1": 0.9623652091162848,
+              "option_2": 0.000052701767353899134,
+              "option_3": 0.00016233287177123837,
+              "option_4": 0.03731494626514024
+            },
+            "confidence": 0.9529565113953559
+          }
+        },
+        "usage": {
+          "input_tokens": 513,
+          "output_tokens": 1,
+          "cost": 0
+        },
+        "id": "gen-dec-1792585069-DAYd41MIuGGZ3jw2r4iw",
+        "provider": "Inception"
+      }
+    }
+  ]
+}

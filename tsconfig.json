@@ -1,1 +1,14 @@
-{"compilerOptions":{"allowImportingTsExtensions":true,"module":"ESNext","moduleResolution":"bundler","noEmit":true,"skipLibCheck":true,"strict":true,"target":"ESNext","types":["bun"]},"include":["src","tests"]}
+{
+  "compilerOptions": {
+    "allowImportingTsExtensions": true,
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "noEmit": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "target": "ESNext",
+    "types": ["bun"]
+  },
+  "include": ["src", "tests", "eval", "scripts"]
+}

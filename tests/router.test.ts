@@ -124,7 +124,7 @@ describe("chat path", () => {
     const handler = createHandler({
       config: makeConfig({
         OPENROUTER_API_KEY: "test-key",
-        DECIDER_MODELS: "meta-llama/llama-3.3-70b-instruct:free",
+        DECIDER_MODELS: "google/gemini-2.5-flash-lite",
       }),
       fetchFn: mockFetch,
     });
@@ -157,7 +157,7 @@ describe("chain fallthrough", () => {
     expect(calls).toBe(2);
     const body = await res.json();
     expect(body.route_selection[0].route_option).toEqual(OPTIONS[0]);
-    expect(body.route_selection[0].params.decider_model).toBe("meta-llama/llama-3.3-70b-instruct:free");
+    expect(body.route_selection[0].params.decider_model).toBe("google/gemini-2.5-flash-lite");
     expect(body.route_selection[0].params.source).toBe("chat");
   });
 });

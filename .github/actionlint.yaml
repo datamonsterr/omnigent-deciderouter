@@ -1,0 +1,4 @@
+self-hosted-runner:
+  # Namespace runner profile labels.
+  labels:
+    - namespace-profile-datamonster01

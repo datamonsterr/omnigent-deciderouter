@@ -93,6 +93,7 @@ export function createHandler(deps: HandlerDeps = {}) {
         };
         if (position === 0) {
           selection.params = { decider_model: decision.deciderModel, source: decision.source };
+          if (decision.servedModel) selection.params.served_model = decision.servedModel;
         }
         return selection;
       }),

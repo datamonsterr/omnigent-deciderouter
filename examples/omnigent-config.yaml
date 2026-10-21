@@ -1,8 +1,11 @@
-# Add this to your Omnigent server config (config.yaml) to delegate
-# Smart Routing decisions to omnigent-openrouter-router.
+# Add this to the Omnigent server config passed with --config to delegate
+# Smart Routing decisions to omnigent-deciderouter.
 # Docs: https://omnigent.ai/docs/reference/configuration/routing
+#
+# router_name must NOT be "task_v1": Omnigent injects its built-in task_v1 arm
+# menu (extra models) into route_options only for that router name.
 routing:
   provider: external
-  base_url: http://localhost:8080
-  router_name: task_v0
+  base_url: http://127.0.0.1:8790
+  router_name: deciderouter_v1
   api_key: ${ROUTER_API_KEY}
