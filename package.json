@@ -1,0 +1,1 @@
+{"description":"Self-hostable external Smart Routing server for Omnigent, using free/cheap decision models via OpenRouter","name":"omnigent-openrouter-router","private":true,"scripts":{"dev":"bun --watch run src/index.ts","start":"bun run src/index.ts","test":"bun test"},"type":"module","version":"0.1.0"}

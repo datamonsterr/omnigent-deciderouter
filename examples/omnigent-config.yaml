@@ -1,0 +1,8 @@
+# Add this to your Omnigent server config (config.yaml) to delegate
+# Smart Routing decisions to omnigent-openrouter-router.
+# Docs: https://omnigent.ai/docs/reference/configuration/routing
+routing:
+  provider: external
+  base_url: http://localhost:8080
+  router_name: task_v0
+  api_key: ${ROUTER_API_KEY}
