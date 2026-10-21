@@ -1,5 +1,24 @@
 {
-  "generated_at": "2026-10-21T12:17:49.879Z",
+  "source_revision": "21eeed6ac05336ef19f17d2f212536f8001e0a82",
+  "source_sha256": {
+    "bun.lock": "3e997587db222c51df4708e031ec245791cea18d66ac3ced279136e870731870",
+    "eval/check-models.ts": "855218f61c5c89248dd677f83b3544c5611d2c903607811ee461efe7bdc08939",
+    "eval/env.ts": "056c1d433c2fe318a3e199b74a2540b9f6cf08fd947ac85d8fc74489e2fdb1c5",
+    "eval/golden.ts": "cd6a9844f7a3115e634e7baeae7c3688189134217136466a8852f0d097c0d082",
+    "eval/live.ts": "59971d7d909853f498700cae6e8aefe564d9aa12e3d71be73f9e750c1f712979",
+    "eval/replay.ts": "d4fcdde4268a48c68e04c9ebac75e0c355057f1df09ed90ad7955c769a5bb8a4",
+    "package.json": "9d00c99b790b0a1bcf4de95b9e098602556788fbb79f110a36941a73076ff797",
+    "src/catalog.ts": "3d6bc29a4abac3868925056ce7633782cb2ded9770e3df681dce1e1a75a30460",
+    "src/config.ts": "69149ae12245ccf3f4b174f7aa1013412331e82c7b010a59ee16ed19b65c2e27",
+    "src/decide.ts": "5be29884b9194bd31cd805292f83078900de5fd03be747f7fde5954eb28444e4",
+    "src/heuristic.ts": "b328de91f94629617040133c84a67ed5d349bce8795e9ab9b6ccf5981003fe69",
+    "src/index.ts": "1c02066d7b7a81105910825a1798d425f75c07f7ce1f9187675f0086967c71cb",
+    "src/openrouter.ts": "56ef8b9f329137d04b556ef3fcfcf91f71a650a777d19d6ea5e4f37c4dda764d",
+    "src/types.ts": "6363b1e75a5c340dc0548030d22d956cf443c8d6584b3abf9a711ff87b02db7c",
+    "tests/golden/routing-golden.json": "96dfabc1c3abb0ee0b7f31589795cd3f4fc3f9d6a9d329ee4afc4ee44525df3f"
+  },
+  "mode": "acceptance",
+  "generated_at": "2026-10-21T12:50:51.630Z",
   "decider_model": "inception/mercury-decide:free",
   "command": "OPENROUTER_ENV_FILE=<path> bun run eval:live",
   "summary": {
@@ -19,13 +38,15 @@
       "inception/mercury-decide-20260930"
     ],
     "latency_ms": {
-      "p50": 468,
-      "p95": 837,
-      "max": 1459
+      "p50": 464,
+      "p95": 1107,
+      "max": 2013
     },
     "gates": {
+      "complete_golden": true,
       "all_http_200": true,
       "zero_invalid": true,
+      "zero_forbidden": true,
       "zero_fallbacks": true,
       "accuracy_at_least_0_8": true,
       "p95_under_3000ms": true
@@ -43,7 +64,8 @@
       "correct": true,
       "forbidden": false,
       "upstream_status": 200,
-      "latency_ms": 602,
+      "router_status": 200,
+      "latency_ms": 657,
       "source": "decisions_api",
       "decider_model": "inception/mercury-decide:free",
       "served_model": "inception/mercury-decide-20260930",
@@ -54,15 +76,15 @@
             "type": "choice",
             "choice": "option_5",
             "probabilities": {
-              "option_0": 0.00010804503548579329,
-              "option_1": 0.00009534940915585527,
-              "option_2": 0.46862022126429753,
-              "option_3": 0.00005783234003851071,
-              "option_4": 0.000054328455685247754,
-              "option_5": 0.5310162788014726,
-              "option_6": 0.00004794469386443559
+              "option_0": 0.00011434274220385016,
+              "option_1": 0.00010090711582792666,
+              "option_2": 0.4376611803804219,
+              "option_3": 0.00005073928428025287,
+              "option_4": 0.00005073928428025287,
+              "option_5": 0.56196807950602,
+              "option_6": 0.00005401168696578723
             },
-            "confidence": 0.4528523252683847
+            "confidence": 0.48896275942369
           }
         },
         "usage": {
@@ -70,7 +92,7 @@
           "output_tokens": 1,
           "cost": 0
         },
-        "id": "gen-dec-1792584927-RIvg54XIrhYywdZCWU61",
+        "id": "gen-dec-1792586907-kzJU0JJvwKlIIAtKTlFb",
         "provider": "Inception"
       }
     },
@@ -84,7 +106,8 @@
       "correct": true,
       "forbidden": false,
       "upstream_status": 200,
-      "latency_ms": 603,
+      "router_status": 200,
+      "latency_ms": 497,
       "source": "decisions_api",
       "decider_model": "inception/mercury-decide:free",
       "served_model": "inception/mercury-decide-20260930",
@@ -95,23 +118,23 @@
             "type": "choice",
             "choice": "option_2",
             "probabilities": {
-              "option_0": 0.000057475875620186236,
-              "option_1": 0.0000693291397850265,
-              "option_2": 0.8173845371393788,
-              "option_3": 0.00003950255310287742,
-              "option_4": 0.000037109214399326045,
-              "option_5": 0.1823831453924804,
-              "option_6": 0.00002890068523335978
+              "option_0": 0.00006358313295523354,
+              "option_1": 0.00007669589832355873,
+              "option_2": 0.79798727647935,
+              "option_3": 0.000041052356098215266,
+              "option_4": 0.00003856511957793387,
+              "option_5": 0.20176279246836853,
+              "option_6": 0.00003003454532653727
             },
-            "confidence": 0.7869486266626087
+            "confidence": 0.7643184892259082
           }
         },
         "usage": {
-          "input_tokens": 711,
+          "input_tokens": 712,
           "output_tokens": 1,
           "cost": 0
         },
-        "id": "gen-dec-1792584930-IIQ9RCP1k2tseqsRdZWt",
+        "id": "gen-dec-1792586910-SVSbr1vXheY83DhWuZCV",
         "provider": "Inception"
       }
     },
@@ -125,7 +148,8 @@
       "correct": true,
       "forbidden": false,
       "upstream_status": 200,
-      "latency_ms": 430,
+      "router_status": 200,
+      "latency_ms": 518,
       "source": "decisions_api",
       "decider_model": "inception/mercury-decide:free",
       "served_model": "inception/mercury-decide-20260930",
@@ -136,23 +160,23 @@
             "type": "choice",
             "choice": "option_5",
             "probabilities": {
-              "option_0": 0.00007083830394699792,
-              "option_1": 0.00006251458381757179,
-              "option_2": 0.053391102636205015,
-              "option_3": 0.000042965603225896696,
-              "option_4": 0.000033461645437463625,
-              "option_5": 0.9463800513565095,
-              "option_6": 0.000019065870857502628
+              "option_0": 0.00007541534424802708,
+              "option_1": 0.00006655380770623487,
+              "option_2": 0.16447445041636052,
+              "option_3": 0.000058733529155963054,
+              "option_4": 0.00003562368618621747,
+              "option_5": 0.8352701552311859,
+              "option_6": 0.00001906798515714698
             },
-            "confidence": 0.9374433932492611
+            "confidence": 0.8078151811030502
           }
         },
         "usage": {
-          "input_tokens": 677,
+          "input_tokens": 702,
           "output_tokens": 1,
           "cost": 0
         },
-        "id": "gen-dec-1792584934-tLo0LvjlNkFvAfG145jO",
+        "id": "gen-dec-1792586914-Kjr4aUdmMsT8DQg18OAY",
         "provider": "Inception"
       }
     },
@@ -166,7 +190,8 @@
       "correct": true,
       "forbidden": false,
       "upstream_status": 200,
-      "latency_ms": 424,
+      "router_status": 200,
+      "latency_ms": 482,
       "source": "decisions_api",
       "decider_model": "inception/mercury-decide:free",
       "served_model": "inception/mercury-decide-20260930",
@@ -177,23 +202,23 @@
             "type": "choice",
             "choice": "option_5",
             "probabilities": {
-              "option_0": 0.00008690494023734681,
-              "option_1": 0.00008690494023734681,
-              "option_2": 0.20175603979485143,
-              "option_3": 0.00005611004660354699,
-              "option_4": 0.00003403246358295597,
-              "option_5": 0.7979606167012545,
-              "option_6": 0.000019391113232848917
+              "option_0": 0.00007826317276652971,
+              "option_1": 0.00007826317276652971,
+              "option_2": 0.1329298942482399,
+              "option_3": 0.00005053050217028144,
+              "option_4": 0.00003262494426590361,
+              "option_5": 0.8668118348268903,
+              "option_6": 0.00001858913290051549
             },
-            "confidence": 0.7642873861514636
+            "confidence": 0.8446138072980387
           }
         },
         "usage": {
-          "input_tokens": 705,
+          "input_tokens": 683,
           "output_tokens": 1,
           "cost": 0
         },
-        "id": "gen-dec-1792584938-6iQAS2jFSgGNEnN1xBEd",
+        "id": "gen-dec-1792586918-5jRd4QuIQyOXrxFQoIJn",
         "provider": "Inception"
       }
     },
@@ -207,7 +232,8 @@
       "correct": true,
       "forbidden": false,
       "upstream_status": 200,
-      "latency_ms": 532,
+      "router_status": 200,
+      "latency_ms": 438,
       "source": "decisions_api",
       "decider_model": "inception/mercury-decide:free",
       "served_model": "inception/mercury-decide-20260930",
@@ -230,11 +256,11 @@
           }
         },
         "usage": {
-          "input_tokens": 696,
+          "input_tokens": 679,
           "output_tokens": 1,
           "cost": 0
         },
-        "id": "gen-dec-1792584941-uoUcKdML8SiM7smyj4JU",
+        "id": "gen-dec-1792586921-wNDqkAmN9i4eO3PjaF5G",
         "provider": "Inception"
       }
     },
@@ -248,7 +274,8 @@
       "correct": true,
       "forbidden": false,
       "upstream_status": 200,
-      "latency_ms": 482,
+      "router_status": 200,
+      "latency_ms": 433,
       "source": "decisions_api",
       "decider_model": "inception/mercury-decide:free",
       "served_model": "inception/mercury-decide-20260930",
@@ -259,23 +286,23 @@
             "type": "choice",
             "choice": "option_5",
             "probabilities": {
-              "option_0": 0.000170963920707519,
-              "option_1": 0.00009741230566780373,
-              "option_2": 0.047403545563718404,
-              "option_3": 0.00008596605802546061,
-              "option_4": 0.00007586477993487659,
-              "option_5": 0.9521256398814637,
-              "option_6": 0.00004060749048222087
+              "option_0": 0.0001408531936995517,
+              "option_1": 0.00007082543365019219,
+              "option_2": 0.053381414971030806,
+              "option_3": 0.00008543178049722045,
+              "option_4": 0.0000753932816710841,
+              "option_5": 0.94620817121666,
+              "option_6": 0.00003791012279107883
             },
-            "confidence": 0.9441465798617077
+            "confidence": 0.9372428664194368
           }
         },
         "usage": {
-          "input_tokens": 684,
+          "input_tokens": 677,
           "output_tokens": 1,
           "cost": 0
         },
-        "id": "gen-dec-1792584945-xCQq5t6PwHIwfmYQliLC",
+        "id": "gen-dec-1792586925-SEi65hysgynehAn98jUW",
         "provider": "Inception"
       }
     },
@@ -289,7 +316,8 @@
       "correct": true,
       "forbidden": false,
       "upstream_status": 200,
-      "latency_ms": 819,
+      "router_status": 200,
+      "latency_ms": 2013,
       "source": "decisions_api",
       "decider_model": "inception/mercury-decide:free",
       "served_model": "inception/mercury-decide-20260930",
@@ -300,10 +328,10 @@
             "type": "choice",
             "choice": "option_0",
             "probabilities": {
-              "option_0": 0.9995955185352944,
-              "option_1": 0.0004044814647056487
+              "option_0": 0.9996646500090933,
+              "option_1": 0.0003353499909066656
             },
-            "confidence": 0.9991910370705888
+            "confidence": 0.9993293000181867
           }
         },
         "usage": {
@@ -311,7 +339,7 @@
           "output_tokens": 1,
           "cost": 0
         },
-        "id": "gen-dec-1792584948-8NLhqqJWOOq2Av6Fdeqv",
+        "id": "gen-dec-1792586930-J4yWkzHNrvqsXpVVV7UN",
         "provider": "Inception"
       }
     },
@@ -325,7 +353,8 @@
       "correct": true,
       "forbidden": false,
       "upstream_status": 200,
-      "latency_ms": 389,
+      "router_status": 200,
+      "latency_ms": 1079,
       "source": "decisions_api",
       "decider_model": "inception/mercury-decide:free",
       "served_model": "inception/mercury-decide-20260930",
@@ -336,11 +365,11 @@
             "type": "choice",
             "choice": "option_0",
             "probabilities": {
-              "option_0": 0.9997923520034584,
-              "option_1": 0.00020342602410490255,
-              "option_2": 0.0000042219724365765355
+              "option_0": 0.9998373423523899,
+              "option_1": 0.00015843548495024897,
+              "option_2": 0.00000422216265997187
             },
-            "confidence": 0.9996885280051876
+            "confidence": 0.9997560135285848
           }
         },
         "usage": {
@@ -348,7 +377,7 @@
           "output_tokens": 1,
           "cost": 0
         },
-        "id": "gen-dec-1792584952-FQPC7jCmBoDWSzQW5h1X",
+        "id": "gen-dec-1792586933-IEUMmzJiTQQefHzHOYUZ",
         "provider": "Inception"
       }
     },
@@ -362,7 +391,8 @@
       "correct": true,
       "forbidden": false,
       "upstream_status": 200,
-      "latency_ms": 595,
+      "router_status": 200,
+      "latency_ms": 458,
       "source": "decisions_api",
       "decider_model": "inception/mercury-decide:free",
       "served_model": "inception/mercury-decide-20260930",
@@ -373,18 +403,18 @@
             "type": "choice",
             "choice": "option_0",
             "probabilities": {
-              "option_0": 0.9998511615068938,
-              "option_1": 0.00014883849310617822
+              "option_0": 0.9996430294274417,
+              "option_1": 0.0003569705725584706
             },
-            "confidence": 0.9997023230137876
+            "confidence": 0.9992860588548829
           }
         },
         "usage": {
-          "input_tokens": 290,
+          "input_tokens": 297,
           "output_tokens": 1,
           "cost": 0
         },
-        "id": "gen-dec-1792584956-KYocMH548ptNv8biUJlO",
+        "id": "gen-dec-1792586938-P7NXPnnBjqBaZn0cla73",
         "provider": "Inception"
       }
     },
@@ -398,7 +428,8 @@
       "correct": true,
       "forbidden": false,
       "upstream_status": 200,
-      "latency_ms": 477,
+      "router_status": 200,
+      "latency_ms": 441,
       "source": "decisions_api",
       "decider_model": "inception/mercury-decide:free",
       "served_model": "inception/mercury-decide-20260930",
@@ -409,23 +440,23 @@
             "type": "choice",
             "choice": "option_5",
             "probabilities": {
-              "option_0": 0.00014538180875221123,
-              "option_1": 0.0000881785243726946,
-              "option_2": 0.02296813747095086,
-              "option_3": 0.00007310256430314393,
-              "option_4": 0.00005348297856025698,
-              "option_5": 0.9766300640674771,
-              "option_6": 0.00004165258558371929
+              "option_0": 0.00019922820397029698,
+              "option_1": 0.00012083801398746731,
+              "option_2": 0.020321829281256015,
+              "option_3": 0.00008305067148397983,
+              "option_4": 0.00006076116925219283,
+              "option_5": 0.9791606711163876,
+              "option_6": 0.00005362154366247853
             },
-            "confidence": 0.9727350747453898
+            "confidence": 0.9756874496357856
           }
         },
         "usage": {
-          "input_tokens": 677,
+          "input_tokens": 688,
           "output_tokens": 1,
           "cost": 0
         },
-        "id": "gen-dec-1792584960-I3FgsLwm1iVRPpo4kest",
+        "id": "gen-dec-1792586941-GGGi9rXDxIeMhsDslOog",
         "provider": "Inception"
       }
     },
@@ -439,7 +470,8 @@
       "correct": false,
       "forbidden": false,
       "upstream_status": 200,
-      "latency_ms": 608,
+      "router_status": 200,
+      "latency_ms": 464,
       "source": "decisions_api",
       "decider_model": "inception/mercury-decide:free",
       "served_model": "inception/mercury-decide-20260930",
@@ -462,11 +494,11 @@
           }
         },
         "usage": {
-          "input_tokens": 713,
+          "input_tokens": 693,
           "output_tokens": 1,
           "cost": 0
         },
-        "id": "gen-dec-1792584963-GYnDpEqn9zMuHazGBkup",
+        "id": "gen-dec-1792586945-tIoG68dnKVvsEUC0IrTR",
         "provider": "Inception"
       }
     },
@@ -480,7 +512,8 @@
       "correct": false,
       "forbidden": false,
       "upstream_status": 200,
-      "latency_ms": 1214,
+      "router_status": 200,
+      "latency_ms": 483,
       "source": "decisions_api",
       "decider_model": "inception/mercury-decide:free",
       "served_model": "inception/mercury-decide-20260930",
@@ -491,23 +524,23 @@
             "type": "choice",
             "choice": "option_5",
             "probabilities": {
-              "option_0": 0.0027886791796654414,
-              "option_1": 0.0001782743805555162,
-              "option_2": 0.0007050885166157222,
-              "option_3": 0.003159987498537561,
-              "option_4": 0.00025938769315465404,
-              "option_5": 0.9928387694809533,
-              "option_6": 0.00006981325051786107
+              "option_0": 0.004046770303729317,
+              "option_1": 0.00022830315799493656,
+              "option_2": 0.0010231837679095716,
+              "option_3": 0.004046770303729317,
+              "option_4": 0.0003536028483764133,
+              "option_5": 0.9902119648170015,
+              "option_6": 0.0000894048012588994
             },
-            "confidence": 0.9916452310611121
+            "confidence": 0.9885806256198352
           }
         },
         "usage": {
-          "input_tokens": 686,
+          "input_tokens": 685,
           "output_tokens": 1,
           "cost": 0
         },
-        "id": "gen-dec-1792584968-J2v56g2H3auk19wVgX3e",
+        "id": "gen-dec-1792586948-cV6VDDQU5o86qA3AlHAY",
         "provider": "Inception"
       }
     },
@@ -521,7 +554,8 @@
       "correct": true,
       "forbidden": false,
       "upstream_status": 200,
-      "latency_ms": 532,
+      "router_status": 200,
+      "latency_ms": 417,
       "source": "decisions_api",
       "decider_model": "inception/mercury-decide:free",
       "served_model": "inception/mercury-decide-20260930",
@@ -532,23 +566,23 @@
             "type": "choice",
             "choice": "option_5",
             "probabilities": {
-              "option_0": 0.0009576483436645073,
-              "option_1": 0.00017714713122997177,
-              "option_2": 0.3202895650444925,
-              "option_3": 0.00029206624330236144,
-              "option_4": 0.00014686012999177116,
-              "option_5": 0.6780530347276118,
-              "option_6": 0.00008367837970706192
+              "option_0": 0.0007923827918246813,
+              "option_1": 0.0001882073200070792,
+              "option_2": 0.18214247306477607,
+              "option_3": 0.00031030141179713727,
+              "option_4": 0.00016609237694999515,
+              "option_5": 0.8163059064509401,
+              "option_6": 0.00009463658370484148
             },
-            "confidence": 0.6243952071822136
+            "confidence": 0.7856902241927635
           }
         },
         "usage": {
-          "input_tokens": 682,
+          "input_tokens": 685,
           "output_tokens": 1,
           "cost": 0
         },
-        "id": "gen-dec-1792584971-vmER1DNujUaOkhNBClyI",
+        "id": "gen-dec-1792586952-RBzq7QU0Vc207bEnynRP",
         "provider": "Inception"
       }
     },
@@ -562,7 +596,8 @@
       "correct": false,
       "forbidden": false,
       "upstream_status": 200,
-      "latency_ms": 474,
+      "router_status": 200,
+      "latency_ms": 440,
       "source": "decisions_api",
       "decider_model": "inception/mercury-decide:free",
       "served_model": "inception/mercury-decide-20260930",
@@ -573,23 +608,23 @@
             "type": "choice",
             "choice": "option_5",
             "probabilities": {
-              "option_0": 0.07646084503904117,
-              "option_1": 0.0005837856167413768,
-              "option_2": 0.0016892396928686582,
-              "option_3": 0.09817766841155168,
-              "option_4": 0.0007979403304736584,
-              "option_5": 0.8220314674887043,
-              "option_6": 0.00025905342061927766
+              "option_0": 0.0556204045010908,
+              "option_1": 0.0005452833886872412,
+              "option_2": 0.0013924299130085686,
+              "option_3": 0.07141801306585385,
+              "option_4": 0.0007001577303720386,
+              "option_5": 0.8700495258249544,
+              "option_6": 0.00027418557603304535
             },
-            "confidence": 0.7923700454034882
+            "confidence": 0.8483911134624467
           }
         },
         "usage": {
-          "input_tokens": 714,
+          "input_tokens": 698,
           "output_tokens": 1,
           "cost": 0
         },
-        "id": "gen-dec-1792584975-Z9lIGUDBhIxN33z95McJ",
+        "id": "gen-dec-1792586955-3NPUtrMbhnkt2ctm36Ji",
         "provider": "Inception"
       }
     },
@@ -603,7 +638,8 @@
       "correct": true,
       "forbidden": false,
       "upstream_status": 200,
-      "latency_ms": 453,
+      "router_status": 200,
+      "latency_ms": 426,
       "source": "decisions_api",
       "decider_model": "inception/mercury-decide:free",
       "served_model": "inception/mercury-decide-20260930",
@@ -614,23 +650,23 @@
             "type": "choice",
             "choice": "option_5",
             "probabilities": {
-              "option_0": 0.0001784246856206369,
-              "option_1": 0.00005792601442437763,
-              "option_2": 0.005908611287468893,
-              "option_3": 0.0001082200422785041,
-              "option_4": 0.000051119528308583854,
-              "option_5": 0.9936756797469802,
-              "option_6": 0.000020018694918705347
+              "option_0": 0.00021461973580281789,
+              "option_1": 0.00006967682677218197,
+              "option_2": 0.008572951185326829,
+              "option_3": 0.0001570191529937407,
+              "option_4": 0.000061489583808374,
+              "option_5": 0.9908986108432005,
+              "option_6": 0.000025632672095549693
             },
-            "confidence": 0.9926216263714771
+            "confidence": 0.9893817126504006
           }
         },
         "usage": {
-          "input_tokens": 693,
+          "input_tokens": 707,
           "output_tokens": 1,
           "cost": 0
         },
-        "id": "gen-dec-1792584978-fkFdVNrPsIPs5z7oAjsv",
+        "id": "gen-dec-1792586959-EGCu0HWO4jDsBDnsnHTh",
         "provider": "Inception"
       }
     },
@@ -644,7 +680,8 @@
       "correct": true,
       "forbidden": false,
       "upstream_status": 200,
-      "latency_ms": 441,
+      "router_status": 200,
+      "latency_ms": 517,
       "source": "decisions_api",
       "decider_model": "inception/mercury-decide:free",
       "served_model": "inception/mercury-decide-20260930",
@@ -655,18 +692,18 @@
             "type": "choice",
             "choice": "option_0",
             "probabilities": {
-              "option_0": 0.9998313472602233,
-              "option_1": 0.0001686527397766967
+              "option_0": 0.9998601779762216,
+              "option_1": 0.00013982202377841658
             },
-            "confidence": 0.9996626945204465
+            "confidence": 0.9997203559524432
           }
         },
         "usage": {
-          "input_tokens": 275,
+          "input_tokens": 281,
           "output_tokens": 1,
           "cost": 0
         },
-        "id": "gen-dec-1792584982-osGmalFX5NpJbb6znDdq",
+        "id": "gen-dec-1792586962-f0ovg6CNhxhLTmHHUSz3",
         "provider": "Inception"
       }
     },
@@ -680,7 +717,8 @@
       "correct": true,
       "forbidden": false,
       "upstream_status": 200,
-      "latency_ms": 398,
+      "router_status": 200,
+      "latency_ms": 444,
       "source": "decisions_api",
       "decider_model": "inception/mercury-decide:free",
       "served_model": "inception/mercury-decide-20260930",
@@ -691,19 +729,19 @@
             "type": "choice",
             "choice": "option_1",
             "probabilities": {
-              "option_0": 0.00043038301782073274,
-              "option_1": 0.9991653095532254,
-              "option_2": 0.0004043074289538812
+              "option_0": 0.00031489443515071887,
+              "option_1": 0.9992269370836656,
+              "option_2": 0.00045816848118353525
             },
-            "confidence": 0.998747964329838
+            "confidence": 0.9988404056254986
           }
         },
         "usage": {
-          "input_tokens": 355,
+          "input_tokens": 359,
           "output_tokens": 1,
           "cost": 0
         },
-        "id": "gen-dec-1792584985-n1loWr1UkFZt0oJmCjPU",
+        "id": "gen-dec-1792586966-NonSD4u6Eyk9Zh36jT4G",
         "provider": "Inception"
       }
     },
@@ -717,7 +755,8 @@
       "correct": false,
       "forbidden": false,
       "upstream_status": 200,
-      "latency_ms": 467,
+      "router_status": 200,
+      "latency_ms": 534,
       "source": "decisions_api",
       "decider_model": "inception/mercury-decide:free",
       "served_model": "inception/mercury-decide-20260930",
@@ -728,23 +767,23 @@
             "type": "choice",
             "choice": "option_5",
             "probabilities": {
-              "option_0": 0.026737585824120898,
-              "option_1": 0.0005212998087200331,
-              "option_2": 0.003851913530994143,
-              "option_3": 0.08235756235484909,
-              "option_4": 0.0008074049384177654,
-              "option_5": 0.8854272058653538,
-              "option_6": 0.00029702767754419035
+              "option_0": 0.03757162014528133,
+              "option_1": 0.0006072888236757999,
+              "option_2": 0.0030840671232218795,
+              "option_3": 0.10213025230668403,
+              "option_4": 0.0011345648898260828,
+              "option_5": 0.8551261839699293,
+              "option_6": 0.0003460227413815167
             },
-            "confidence": 0.8663317401762461
+            "confidence": 0.8309805479649176
           }
         },
         "usage": {
-          "input_tokens": 702,
+          "input_tokens": 693,
           "output_tokens": 1,
           "cost": 0
         },
-        "id": "gen-dec-1792584989-wUN6N5Hc3VEYr95ME0Qe",
+        "id": "gen-dec-1792586970-RKPubbzvR5ikwZlU2QlJ",
         "provider": "Inception"
       }
     },
@@ -758,7 +797,8 @@
       "correct": true,
       "forbidden": false,
       "upstream_status": 200,
-      "latency_ms": 402,
+      "router_status": 200,
+      "latency_ms": 393,
       "source": "decisions_api",
       "decider_model": "inception/mercury-decide:free",
       "served_model": "inception/mercury-decide-20260930",
@@ -769,32 +809,33 @@
             "type": "choice",
             "choice": "option_1",
             "probabilities": {
-              "option_0": 0.34864513533394575,
-              "option_1": 0.6513548646660542
+              "option_0": 0.37754066879814546,
+              "option_1": 0.6224593312018546
             },
-            "confidence": 0.3027097293321084
+            "confidence": 0.2449186624037092
           }
         },
         "usage": {
-          "input_tokens": 281,
+          "input_tokens": 291,
           "output_tokens": 1,
           "cost": 0
         },
-        "id": "gen-dec-1792584993-rWNv4CAoPrLQrsozrmfT",
+        "id": "gen-dec-1792586973-slKvqBtIFTNaXwxS7lYz",
         "provider": "Inception"
       }
     },
     {
       "id": "multi-settled-react",
       "selected": {
-        "model": "gemini-3.8-flash-medium",
-        "harness": "agy"
+        "model": "gpt-6.1-sol",
+        "harness": "codex"
       },
       "offered": true,
       "correct": true,
       "forbidden": false,
       "upstream_status": 200,
-      "latency_ms": 475,
+      "router_status": 200,
+      "latency_ms": 454,
       "source": "decisions_api",
       "decider_model": "inception/mercury-decide:free",
       "served_model": "inception/mercury-decide-20260930",
@@ -803,23 +844,23 @@
         "answers": {
           "route_decision": {
             "type": "choice",
-            "choice": "option_3",
+            "choice": "option_1",
             "probabilities": {
-              "option_0": 0.06922643997152336,
-              "option_1": 0.3983706567104784,
-              "option_2": 0.0010511477177615944,
-              "option_3": 0.5115180484788412,
-              "option_4": 0.01983370712139544
+              "option_0": 0.058479508219403536,
+              "option_1": 0.48964295666215524,
+              "option_2": 0.0007836258583936736,
+              "option_3": 0.4321083926267153,
+              "option_4": 0.018985516633332252
             },
-            "confidence": 0.38939756059855146
+            "confidence": 0.36205369582769403
           }
         },
         "usage": {
-          "input_tokens": 525,
+          "input_tokens": 535,
           "output_tokens": 1,
           "cost": 0
         },
-        "id": "gen-dec-1792584996-e4lBUzUakESNWRMEgDG1",
+        "id": "gen-dec-1792586977-FFMWLB6FGTscFzfWjVWT",
         "provider": "Inception"
       }
     },
@@ -833,7 +874,8 @@
       "correct": false,
       "forbidden": false,
       "upstream_status": 200,
-      "latency_ms": 627,
+      "router_status": 200,
+      "latency_ms": 632,
       "source": "decisions_api",
       "decider_model": "inception/mercury-decide:free",
       "served_model": "inception/mercury-decide-20260930",
@@ -844,23 +886,23 @@
             "type": "choice",
             "choice": "option_0",
             "probabilities": {
-              "option_0": 0.5483960010275485,
-              "option_1": 0.016560124310295053,
-              "option_2": 0.0006835179615274576,
-              "option_3": 0.3769066920380771,
-              "option_4": 0.008863995794780588,
-              "option_5": 0.03972567307299073,
-              "option_6": 0.008863995794780588
+              "option_0": 0.5438087189442773,
+              "option_1": 0.027074640255344878,
+              "option_2": 0.000677800517879168,
+              "option_3": 0.37375390224345484,
+              "option_4": 0.009960205901751965,
+              "option_5": 0.034764526235539904,
+              "option_6": 0.009960205901751965
             },
-            "confidence": 0.4731286678654732
+            "confidence": 0.4677768387683235
           }
         },
         "usage": {
-          "input_tokens": 693,
+          "input_tokens": 709,
           "output_tokens": 1,
           "cost": 0
         },
-        "id": "gen-dec-1792585000-8udVwkgPew56G8EwPjVD",
+        "id": "gen-dec-1792586980-g8iek66RCr3poVL0QM9J",
         "provider": "Inception"
       }
     },
@@ -874,7 +916,8 @@
       "correct": true,
       "forbidden": false,
       "upstream_status": 200,
-      "latency_ms": 438,
+      "router_status": 200,
+      "latency_ms": 670,
       "source": "decisions_api",
       "decider_model": "inception/mercury-decide:free",
       "served_model": "inception/mercury-decide-20260930",
@@ -885,21 +928,21 @@
             "type": "choice",
             "choice": "option_1",
             "probabilities": {
-              "option_0": 0.20081236161242447,
-              "option_1": 0.5458645935010001,
-              "option_2": 0.0017373669314689343,
-              "option_3": 0.20081236161242447,
-              "option_4": 0.050773316342681986
+              "option_0": 0.25782570102634494,
+              "option_1": 0.4250826920784031,
+              "option_2": 0.0017372159085175677,
+              "option_3": 0.25782570102634494,
+              "option_4": 0.05752868996038953
             },
-            "confidence": 0.43233074187625015
+            "confidence": 0.28135336509800385
           }
         },
         "usage": {
-          "input_tokens": 521,
+          "input_tokens": 516,
           "output_tokens": 1,
           "cost": 0
         },
-        "id": "gen-dec-1792585003-UB5HV3kDcn4wanw5fhGw",
+        "id": "gen-dec-1792586984-c0aiPXfxbOh1rlbiVq7w",
         "provider": "Inception"
       }
     },
@@ -913,7 +956,8 @@
       "correct": true,
       "forbidden": false,
       "upstream_status": 200,
-      "latency_ms": 450,
+      "router_status": 200,
+      "latency_ms": 402,
       "source": "decisions_api",
       "decider_model": "inception/mercury-decide:free",
       "served_model": "inception/mercury-decide-20260930",
@@ -924,23 +968,23 @@
             "type": "choice",
             "choice": "option_4",
             "probabilities": {
-              "option_0": 0.0000840670132396603,
-              "option_1": 0.00857506438631507,
-              "option_2": 0.000042271548922602375,
-              "option_3": 0.00007418887879353839,
-              "option_4": 0.991142837866238,
-              "option_5": 0.00005427774321938076,
-              "option_6": 0.000027292563271702768
+              "option_0": 0.00008415150945738459,
+              "option_1": 0.007575077475962491,
+              "option_2": 0.00004231403628909325,
+              "option_3": 0.00007905302723973883,
+              "option_4": 0.992139406892628,
+              "option_5": 0.00005433229807784318,
+              "option_6": 0.000025664760345528042
             },
-            "confidence": 0.9896666441772776
+            "confidence": 0.9908293080413992
           }
         },
         "usage": {
-          "input_tokens": 703,
+          "input_tokens": 697,
           "output_tokens": 1,
           "cost": 0
         },
-        "id": "gen-dec-1792585007-8QSjRju8UrshbeuDPXRz",
+        "id": "gen-dec-1792586988-S4jVUwuywS8DKrLu9nDr",
         "provider": "Inception"
       }
     },
@@ -954,7 +998,8 @@
       "correct": true,
       "forbidden": false,
       "upstream_status": 200,
-      "latency_ms": 485,
+      "router_status": 200,
+      "latency_ms": 421,
       "source": "decisions_api",
       "decider_model": "inception/mercury-decide:free",
       "served_model": "inception/mercury-decide-20260930",
@@ -965,23 +1010,23 @@
             "type": "choice",
             "choice": "option_4",
             "probabilities": {
-              "option_0": 0.00013949729117510625,
-              "option_1": 0.11913888387676148,
-              "option_2": 0.0000746675193489169,
-              "option_3": 0.00010864059960351252,
-              "option_4": 0.8803239227650719,
-              "option_5": 0.0001484940934899518,
-              "option_6": 0.0000658938545490945
+              "option_0": 0.00013291045642047368,
+              "option_1": 0.10663591434064466,
+              "option_2": 0.00007114184076873373,
+              "option_3": 0.00009134793173700629,
+              "option_4": 0.8928514728907417,
+              "option_5": 0.00014148244439183785,
+              "option_6": 0.00007573009529553373
             },
-            "confidence": 0.8603779098925839
+            "confidence": 0.8749933850391987
           }
         },
         "usage": {
-          "input_tokens": 717,
+          "input_tokens": 714,
           "output_tokens": 1,
           "cost": 0
         },
-        "id": "gen-dec-1792585010-wxPyQtcROZ7JV7rpuy4b",
+        "id": "gen-dec-1792586991-b3Eah4N5vBWDmUyG99Lq",
         "provider": "Inception"
       }
     },
@@ -995,7 +1040,8 @@
       "correct": true,
       "forbidden": false,
       "upstream_status": 200,
-      "latency_ms": 837,
+      "router_status": 200,
+      "latency_ms": 596,
       "source": "decisions_api",
       "decider_model": "inception/mercury-decide:free",
       "served_model": "inception/mercury-decide-20260930",
@@ -1018,11 +1064,11 @@
           }
         },
         "usage": {
-          "input_tokens": 721,
+          "input_tokens": 705,
           "output_tokens": 1,
           "cost": 0
         },
-        "id": "gen-dec-1792585014-uvRZQinRfm2IFoIz2io8",
+        "id": "gen-dec-1792586995-7WdDkBu2ilXK1BFeSwcm",
         "provider": "Inception"
       }
     },
@@ -1036,7 +1082,8 @@
       "correct": true,
       "forbidden": false,
       "upstream_status": 200,
-      "latency_ms": 446,
+      "router_status": 200,
+      "latency_ms": 516,
       "source": "decisions_api",
       "decider_model": "inception/mercury-decide:free",
       "served_model": "inception/mercury-decide-20260930",
@@ -1047,23 +1094,23 @@
             "type": "choice",
             "choice": "option_4",
             "probabilities": {
-              "option_0": 0.000875082284785326,
-              "option_1": 0.20115241034087378,
-              "option_2": 0.00013419821476983793,
-              "option_3": 0.0016348689409707382,
-              "option_4": 0.7955731684787009,
-              "option_5": 0.0004683977938258555,
-              "option_6": 0.00016187394607367195
+              "option_0": 0.0008219614224830282,
+              "option_1": 0.20112732871401937,
+              "option_2": 0.00014283547774901316,
+              "option_3": 0.0017400923450515483,
+              "option_4": 0.795474004286527,
+              "option_5": 0.0004985448038369657,
+              "option_6": 0.00019523295033303678
             },
-            "confidence": 0.7615020298918177
+            "confidence": 0.7613863383342814
           }
         },
         "usage": {
-          "input_tokens": 694,
+          "input_tokens": 715,
           "output_tokens": 1,
           "cost": 0
         },
-        "id": "gen-dec-1792585018-lKJGSJJ05JRPFvd1kIwG",
+        "id": "gen-dec-1792586999-6xNOX6zgjyJERTpryUXy",
         "provider": "Inception"
       }
     },
@@ -1077,7 +1124,8 @@
       "correct": true,
       "forbidden": false,
       "upstream_status": 200,
-      "latency_ms": 447,
+      "router_status": 200,
+      "latency_ms": 1269,
       "source": "decisions_api",
       "decider_model": "inception/mercury-decide:free",
       "served_model": "inception/mercury-decide-20260930",
@@ -1100,11 +1148,11 @@
           }
         },
         "usage": {
-          "input_tokens": 706,
+          "input_tokens": 698,
           "output_tokens": 1,
           "cost": 0
         },
-        "id": "gen-dec-1792585022-yWtV0Vmr1tSCmozQab8a",
+        "id": "gen-dec-1792587002-1Ji7tZHpkBBNqjKSZuDR",
         "provider": "Inception"
       }
     },
@@ -1118,7 +1166,8 @@
       "correct": true,
       "forbidden": false,
       "upstream_status": 200,
-      "latency_ms": 472,
+      "router_status": 200,
+      "latency_ms": 465,
       "source": "decisions_api",
       "decider_model": "inception/mercury-decide:free",
       "served_model": "inception/mercury-decide-20260930",
@@ -1141,11 +1190,11 @@
           }
         },
         "usage": {
-          "input_tokens": 705,
+          "input_tokens": 726,
           "output_tokens": 1,
           "cost": 0
         },
-        "id": "gen-dec-1792585025-34bFNncynv2WsH9oOK0X",
+        "id": "gen-dec-1792587007-HBsrjMmNlUfM8Mcug2P9",
         "provider": "Inception"
       }
     },
@@ -1159,7 +1208,8 @@
       "correct": true,
       "forbidden": false,
       "upstream_status": 200,
-      "latency_ms": 392,
+      "router_status": 200,
+      "latency_ms": 448,
       "source": "decisions_api",
       "decider_model": "inception/mercury-decide:free",
       "served_model": "inception/mercury-decide-20260930",
@@ -1170,18 +1220,18 @@
             "type": "choice",
             "choice": "option_1",
             "probabilities": {
-              "option_0": 0.000016701416473164598,
-              "option_1": 0.9999832985835269
+              "option_0": 0.000016701418362021358,
+              "option_1": 0.9999832985816379
             },
-            "confidence": 0.9999665971670537
+            "confidence": 0.9999665971632758
           }
         },
         "usage": {
-          "input_tokens": 282,
+          "input_tokens": 280,
           "output_tokens": 1,
           "cost": 0
         },
-        "id": "gen-dec-1792585029-TRAtsittttUAxg6y6sv3",
+        "id": "gen-dec-1792587010-hcWDfsYY8VqIhknMUfVe",
         "provider": "Inception"
       }
     },
@@ -1195,7 +1245,8 @@
       "correct": true,
       "forbidden": false,
       "upstream_status": 200,
-      "latency_ms": 445,
+      "router_status": 200,
+      "latency_ms": 1107,
       "source": "decisions_api",
       "decider_model": "inception/mercury-decide:free",
       "served_model": "inception/mercury-decide-20260930",
@@ -1206,11 +1257,11 @@
             "type": "choice",
             "choice": "option_2",
             "probabilities": {
-              "option_0": 0.000010129131773721894,
-              "option_1": 0.00008481018198510611,
-              "option_2": 0.9999050606862412
+              "option_0": 0.000012218404451427935,
+              "option_1": 0.000054759089686934524,
+              "option_2": 0.9999330225058617
             },
-            "confidence": 0.9998575910293618
+            "confidence": 0.9998995337587924
           }
         },
         "usage": {
@@ -1218,7 +1269,7 @@
           "output_tokens": 1,
           "cost": 0
         },
-        "id": "gen-dec-1792585032-cBqqQjdrCisNtKDhBctt",
+        "id": "gen-dec-1792587014-zohiomV34elxGe5y7jcR",
         "provider": "Inception"
       }
     },
@@ -1232,7 +1283,8 @@
       "correct": true,
       "forbidden": false,
       "upstream_status": 200,
-      "latency_ms": 1459,
+      "router_status": 200,
+      "latency_ms": 446,
       "source": "decisions_api",
       "decider_model": "inception/mercury-decide:free",
       "served_model": "inception/mercury-decide-20260930",
@@ -1243,23 +1295,23 @@
             "type": "choice",
             "choice": "option_1",
             "probabilities": {
-              "option_0": 0.000823672182547586,
-              "option_1": 0.7971295644398213,
-              "option_2": 0.0003225546612227942,
-              "option_3": 0.0028748984016121913,
-              "option_4": 0.1778636447221306,
-              "option_5": 0.0022389731264263043,
-              "option_6": 0.018746692466239254
+              "option_0": 0.0009788958407006036,
+              "option_1": 0.8360344208561368,
+              "option_2": 0.0002985463637766101,
+              "option_3": 0.0032096758936174833,
+              "option_4": 0.1282100232496987,
+              "option_5": 0.0026609147757305908,
+              "option_6": 0.028607523020339184
             },
-            "confidence": 0.7633178251797915
+            "confidence": 0.8087068243321596
           }
         },
         "usage": {
-          "input_tokens": 726,
+          "input_tokens": 692,
           "output_tokens": 1,
           "cost": 0
         },
-        "id": "gen-dec-1792585036-GYxt0negOo7eOl6pFk3j",
+        "id": "gen-dec-1792587018-MRvKz4mwBJYKLwCaLLiq",
         "provider": "Inception"
       }
     },
@@ -1273,7 +1325,8 @@
       "correct": true,
       "forbidden": false,
       "upstream_status": 200,
-      "latency_ms": 446,
+      "router_status": 200,
+      "latency_ms": 478,
       "source": "decisions_api",
       "decider_model": "inception/mercury-decide:free",
       "served_model": "inception/mercury-decide-20260930",
@@ -1298,7 +1351,7 @@
           "output_tokens": 1,
           "cost": 0
         },
-        "id": "gen-dec-1792585040-YD3LQ9GW07sfBL06j6C1",
+        "id": "gen-dec-1792587021-yFXxHNlOj4FQh8MREEcT",
         "provider": "Inception"
       }
     },
@@ -1312,7 +1365,8 @@
       "correct": true,
       "forbidden": false,
       "upstream_status": 200,
-      "latency_ms": 409,
+      "router_status": 200,
+      "latency_ms": 442,
       "source": "decisions_api",
       "decider_model": "inception/mercury-decide:free",
       "served_model": "inception/mercury-decide-20260930",
@@ -1334,7 +1388,7 @@
           "output_tokens": 1,
           "cost": 0
         },
-        "id": "gen-dec-1792585044-yuD2ERn71CQ6qdIylm5k",
+        "id": "gen-dec-1792587025-ka8JiNk4GXGrQMX81qYk",
         "provider": "Inception"
       }
     },
@@ -1348,7 +1402,8 @@
       "correct": true,
       "forbidden": false,
       "upstream_status": 200,
-      "latency_ms": 458,
+      "router_status": 200,
+      "latency_ms": 409,
       "source": "decisions_api",
       "decider_model": "inception/mercury-decide:free",
       "served_model": "inception/mercury-decide-20260930",
@@ -1359,15 +1414,15 @@
             "type": "choice",
             "choice": "option_6",
             "probabilities": {
-              "option_0": 0.00005733692526599056,
-              "option_1": 0.015897932675306557,
-              "option_2": 0.00002708404573266515,
-              "option_3": 0.000023901586468536522,
-              "option_4": 0.0003979969569233451,
-              "option_5": 0.000025443106355103215,
-              "option_6": 0.9835703047039479
+              "option_0": 0.00004493953700717897,
+              "option_1": 0.009704233255688232,
+              "option_2": 0.000021227934177858386,
+              "option_3": 0.000018733586160229694,
+              "option_4": 0.00033206076000601544,
+              "option_5": 0.00001994179866322481,
+              "option_6": 0.9898588631282972
             },
-            "confidence": 0.9808320221546059
+            "confidence": 0.9881686736496801
           }
         },
         "usage": {
@@ -1375,7 +1430,7 @@
           "output_tokens": 1,
           "cost": 0
         },
-        "id": "gen-dec-1792585047-nQMc94ZcyOyyKwoewpd5",
+        "id": "gen-dec-1792587028-Wip3MaTJAlgY2Aqcd9m2",
         "provider": "Inception"
       }
     },
@@ -1389,7 +1444,8 @@
       "correct": true,
       "forbidden": false,
       "upstream_status": 200,
-      "latency_ms": 580,
+      "router_status": 200,
+      "latency_ms": 441,
       "source": "decisions_api",
       "decider_model": "inception/mercury-decide:free",
       "served_model": "inception/mercury-decide-20260930",
@@ -1400,10 +1456,10 @@
             "type": "choice",
             "choice": "option_0",
             "probabilities": {
-              "option_0": 0.9999203270155138,
-              "option_1": 0.00007967298448622211
+              "option_0": 0.9999097195949689,
+              "option_1": 0.00009028040503115797
             },
-            "confidence": 0.9998406540310276
+            "confidence": 0.9998194391899378
           }
         },
         "usage": {
@@ -1411,7 +1467,7 @@
           "output_tokens": 1,
           "cost": 0
         },
-        "id": "gen-dec-1792585051-ASXeJDVO0Ev5725x8bx8",
+        "id": "gen-dec-1792587032-qNQlYgikfriDGHYnqzLT",
         "provider": "Inception"
       }
     },
@@ -1425,7 +1481,8 @@
       "correct": true,
       "forbidden": false,
       "upstream_status": 200,
-      "latency_ms": 389,
+      "router_status": 200,
+      "latency_ms": 472,
       "source": "decisions_api",
       "decider_model": "inception/mercury-decide:free",
       "served_model": "inception/mercury-decide-20260930",
@@ -1444,11 +1501,11 @@
           }
         },
         "usage": {
-          "input_tokens": 364,
+          "input_tokens": 350,
           "output_tokens": 1,
           "cost": 0
         },
-        "id": "gen-dec-1792585055-saeTaBkw1oJ3h4Sq4v07",
+        "id": "gen-dec-1792587036-Sjld0fXKuOlpM5oHf1U4",
         "provider": "Inception"
       }
     },
@@ -1462,7 +1519,8 @@
       "correct": true,
       "forbidden": false,
       "upstream_status": 200,
-      "latency_ms": 468,
+      "router_status": 200,
+      "latency_ms": 537,
       "source": "decisions_api",
       "decider_model": "inception/mercury-decide:free",
       "served_model": "inception/mercury-decide-20260930",
@@ -1473,21 +1531,21 @@
             "type": "choice",
             "choice": "option_3",
             "probabilities": {
-              "option_0": 0.012419932797035052,
-              "option_1": 0.00020074942082545376,
-              "option_2": 0.0006582323237430179,
-              "option_3": 0.986637400649382,
-              "option_4": 0.00008368480901458947
+              "option_0": 0.010979975860250917,
+              "option_1": 0.00018892083024402885,
+              "option_2": 0.00037571411304530286,
+              "option_3": 0.988385889107004,
+              "option_4": 0.00006950008945581825
             },
-            "confidence": 0.9832967508117274
+            "confidence": 0.9854823613837549
           }
         },
         "usage": {
-          "input_tokens": 519,
+          "input_tokens": 516,
           "output_tokens": 1,
           "cost": 0
         },
-        "id": "gen-dec-1792585058-uX0uO7QbViKZHQ7b0jRj",
+        "id": "gen-dec-1792587039-Qw4YRm6RVRwzStBnYmbR",
         "provider": "Inception"
       }
     },
@@ -1501,7 +1559,8 @@
       "correct": true,
       "forbidden": false,
       "upstream_status": 200,
-      "latency_ms": 445,
+      "router_status": 200,
+      "latency_ms": 442,
       "source": "decisions_api",
       "decider_model": "inception/mercury-decide:free",
       "served_model": "inception/mercury-decide-20260930",
@@ -1512,23 +1571,23 @@
             "type": "choice",
             "choice": "option_2",
             "probabilities": {
-              "option_0": 0.00006943166876716313,
-              "option_1": 0.000028943425671928835,
-              "option_2": 0.9874122128058641,
-              "option_3": 0.000021175462576838592,
-              "option_4": 0.000023994942661919122,
-              "option_5": 0.012429688026055631,
-              "option_6": 0.000014553668402500617
+              "option_0": 0.0000614437251363622,
+              "option_1": 0.000024061708487382106,
+              "option_2": 0.990160283395372,
+              "option_3": 0.000017603921988526806,
+              "option_4": 0.000018739277412009052,
+              "option_5": 0.009707190653186568,
+              "option_6": 0.000010677318417230899
             },
-            "confidence": 0.985314248273508
+            "confidence": 0.988520330627934
           }
         },
         "usage": {
-          "input_tokens": 702,
+          "input_tokens": 699,
           "output_tokens": 1,
           "cost": 0
         },
-        "id": "gen-dec-1792585062-kqLfMmbqnl5jJe7OlaXy",
+        "id": "gen-dec-1792587043-R9bXK6Jkv2TIHvSYtqTe",
         "provider": "Inception"
       }
     },
@@ -1542,7 +1601,8 @@
       "correct": false,
       "forbidden": false,
       "upstream_status": 200,
-      "latency_ms": 716,
+      "router_status": 200,
+      "latency_ms": 559,
       "source": "decisions_api",
       "decider_model": "inception/mercury-decide:free",
       "served_model": "inception/mercury-decide-20260930",
@@ -1553,23 +1613,23 @@
             "type": "choice",
             "choice": "option_5",
             "probabilities": {
-              "option_0": 0.16025758218391636,
-              "option_1": 0.0017803009257082087,
-              "option_2": 0.006213860798208444,
-              "option_3": 0.11014331807996883,
-              "option_4": 0.00259032256234228,
-              "option_5": 0.718224611702938,
-              "option_6": 0.0007900037469178741
+              "option_0": 0.187522784019008,
+              "option_1": 0.0017270253401822,
+              "option_2": 0.006416677574622943,
+              "option_3": 0.14604289103773335,
+              "option_4": 0.002847383413396518,
+              "option_5": 0.6545188285643825,
+              "option_6": 0.0009244100506744195
             },
-            "confidence": 0.6712620469867611
+            "confidence": 0.5969386333251131
           }
         },
         "usage": {
-          "input_tokens": 715,
+          "input_tokens": 708,
           "output_tokens": 1,
           "cost": 0
         },
-        "id": "gen-dec-1792585065-IAn33ZAE7QvKPybFnnhH",
+        "id": "gen-dec-1792587047-gyHVEjOaDwC162HhLrRn",
         "provider": "Inception"
       }
     },
@@ -1583,7 +1643,8 @@
       "correct": true,
       "forbidden": false,
       "upstream_status": 200,
-      "latency_ms": 492,
+      "router_status": 200,
+      "latency_ms": 455,
       "source": "decisions_api",
       "decider_model": "inception/mercury-decide:free",
       "served_model": "inception/mercury-decide-20260930",
@@ -1594,13 +1655,13 @@
             "type": "choice",
             "choice": "option_1",
             "probabilities": {
-              "option_0": 0.00010480997944990801,
-              "option_1": 0.9623652091162848,
-              "option_2": 0.000052701767353899134,
-              "option_3": 0.00016233287177123837,
-              "option_4": 0.03731494626514024
+              "option_0": 0.00011816771590607499,
+              "option_1": 0.9575231050034722,
+              "option_2": 0.00006732993496096464,
+              "option_3": 0.00022076635754052394,
+              "option_4": 0.04207063098812024
             },
-            "confidence": 0.9529565113953559
+            "confidence": 0.9469038812543401
           }
         },
         "usage": {
@@ -1608,7 +1669,7 @@
           "output_tokens": 1,
           "cost": 0
         },
-        "id": "gen-dec-1792585069-DAYd41MIuGGZ3jw2r4iw",
+        "id": "gen-dec-1792587051-8S9DFC5CXAqeXU52ZizC",
         "provider": "Inception"
       }
     }

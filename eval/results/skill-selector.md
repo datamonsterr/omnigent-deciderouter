@@ -1,29 +1,39 @@
-# Jev skill selector: real invocations (2026-10-21)
+# Delivery selector evidence (2026-10-21)
 
-Selector: `.agents/skills/jev-skill-selector/run.sh` (runtime
-`~/dev/jev_skill_selector` at `68cbbec`, free model
-`inception/mercury-decide:free`). Bank: `.agents/jev_skills` installed with
-`bun run skills:install`.
+Installed the five project skills with `bun run skills:install`; all five
+SKILL.md SHA256 values match `.agents/skills-manifest.json`.
+The installer fetched pinned repositories through authenticated `gh repo clone`.
+The mismatch regression proves an existing skill survives failed verification.
 
-Command shape (exclusive project bank):
+Runtime provenance (verified by the wrapper before execution):
+- Origin: `datamonsterr/jev_auto_select_skills`
+- Commit: `68cbbeca4e22750c87869578e970b00def6b1450`
+- Clean checkout: `/home/dat/dev/jev_skill_selector`
+- Explicit `JEV_PATH` takes precedence; arbitrary PATH executables are refused.
+- Exclusive bank: `/home/dat/dev/omnigent-deciderouter-delivery/.agents/jev_skills`
+- Model: `inception/mercury-decide:free`
+- Served: `inception/mercury-decide-20260930`
+
+Prompt: Fix OpenRouter Decisions API validation, write Bun tests with mocked
+fetch, and secure GitHub Actions CI.
+
+| Selected skill | Probability |
+| --- | --- |
+| bun-test-mocking | 0.3673 |
+| openrouter-decisions | 0.2228 |
+| github-actions-templates | 0.0929 |
+
+Primary: `bun-test-mocking`. 324 total tokens (323 input, 1 output), cost $0.
+The selected SKILL.md files and OpenRouter Decisions reference were read.
+
+Invocation (credential loaded only from the approved 0600 file into child env,
+never argv; no global configuration changed):
 
 ```sh
-SKILL_SELECTOR_EXCLUSIVE=1 SKILL_SELECTOR_AGENT_SKILLS_PATH=$PWD/.agents/jev_skills \
-  .agents/skills/jev-skill-selector/run.sh "<prompt>"
+JEV_PATH=/home/dat/dev/jev_skill_selector \
+SKILL_SELECTOR_MODEL=inception/mercury-decide:free \
+SKILL_SELECTOR_EXCLUSIVE=1 \
+SKILL_SELECTOR_AGENT_SKILLS_PATH=$PWD/.agents/jev_skills \
+.agents/skills/jev-skill-selector/run.sh \
+  "Fix OpenRouter Decisions API validation, write Bun tests with mocked fetch, and secure GitHub Actions CI" --json
 ```
-
-| Prompt | Primary choice | Probability |
-| --- | --- | --- |
-| Fix the OpenRouter Decisions API transport so Jev decision models are detected and responses are validated | openrouter-decisions | 99.9% |
-| Write bun:test unit tests that mock fetch for the router handler | bun-test-mocking | 99.8% |
-| Set up a GitHub Actions CI workflow with pinned action SHAs, typecheck, tests and Docker build | github-actions-templates | 100.0% |
-| List current OpenRouter models with pricing and check whether a model id still exists | openrouter-models | 99.8% |
-| Use describe/it.each and expect assertions in bun test | bun-test-basics | 100.0% |
-
-Each call used about 320 tokens (one output token).
-
-Default (non-exclusive) mode searches the project bank and then the global
-`~/.agents/jev_skills` bank. There, "Fix the OpenRouter Decisions API transport
-so Jev decision models are detected" picked the global `jev-skill-selector`
-skill (99.9%) because the word "Jev" matches that skill. Use the exclusive
-command above when only this project's skills should be offered.
