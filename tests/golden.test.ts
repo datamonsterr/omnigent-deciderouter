@@ -1,19 +1,16 @@
 import { describe, expect, it } from "bun:test";
 import { existsSync } from "node:fs";
 import { goldenRequest, loadGolden, LIVE_RESULTS_PATH, loadLiveResults, scoreSelection, summarize } from "../eval/golden";
-import { loadConfig } from "../src/config";
-import { createHandler } from "../src/index";
+import { replayRecorded } from "../eval/replay";
 import { rankHeuristically } from "../src/heuristic";
-import type { FetchFn } from "../src/openrouter";
 
 const golden = loadGolden();
 const AUTHORIZED_CODEX_MODELS = ["gpt-6-luna", "gpt-6.1-sol"];
 const DISABLED_MODELS = ["claude-sonnet-4-6"];
 
 describe("golden set", () => {
-  it("has 30-50 reviewed cases with unique ids", () => {
-    expect(golden.cases.length).toBeGreaterThanOrEqual(30);
-    expect(golden.cases.length).toBeLessThanOrEqual(50);
+  it("has 40 reviewed cases with unique ids", () => {
+    expect(golden.cases.length).toBe(40);
     expect(new Set(golden.cases.map((c) => c.id)).size).toBe(golden.cases.length);
   });
 
@@ -63,31 +60,7 @@ describe("offline golden replay: recorded live decisions", () => {
     expect(existsSync(LIVE_RESULTS_PATH)).toBe(true);
   });
 
-  it("replays every recorded decisions answer through the server to the same offered selection", async () => {
-    const live = loadLiveResults();
-    const config = loadConfig({
-      OPENROUTER_BASE_URL: "https://mock.openrouter.test",
-      OPENROUTER_API_KEY: "test-key",
-      DECIDER_MODELS: live.decider_model,
-    });
-    for (const result of live.cases.filter((c) => c.upstream_answer)) {
-      const testCase = golden.cases.find((c) => c.id === result.id)!;
-      const fetchFn = (async () =>
-        new Response(JSON.stringify(result.upstream_answer), {
-          status: 200,
-          headers: { "Content-Type": "application/json" },
-        })) as unknown as FetchFn;
-      const handler = createHandler({ config, fetchFn });
-      const response = await handler(
-        new Request("http://localhost/routes:select", {
-          method: "POST",
-          body: JSON.stringify(goldenRequest(golden, testCase)),
-        }),
-      );
-      expect(response.status).toBe(200);
-      const body = await response.json();
-      expect(body.route_selection[0].route_option).toEqual(result.selected);
-      expect(body.route_selection[0].params.source).toBe("decisions_api");
-    }
+  it("replays complete raw evidence and passes current deployment gates", async () => {
+    expect((await replayRecorded(golden, loadLiveResults())).passed).toBe(true);
   });
 });

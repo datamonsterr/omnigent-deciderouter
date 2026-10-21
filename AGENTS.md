@@ -51,7 +51,7 @@ deciders unless `EVAL_ALLOW_PAID=1`; report any paid run and its cost.
   `policy_routes`, not in route options); `agy-sonnet-thinking` is disabled.
   Do not add models to it without the operator's policy.
 - Do not loosen gates to get green: live acceptance is HTTP 200 for every
-  case, zero invalid or unoffered selections, top-1 accuracy >= 80%, p95 <
+  case, all 40 unique golden IDs, zero invalid/unoffered/forbidden selections, top-1 accuracy >= 80%, p95 <
   3000 ms, and every fallback reported.
 - Tests: TDD with `bun:test`; mock `fetch` through the `fetchFn` dependency,
   never the network.

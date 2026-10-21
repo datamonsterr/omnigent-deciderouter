@@ -15,7 +15,8 @@ if [ -z "$key" ]; then
 fi
 
 url="${OPENROUTER_DECISIONS_URL:-https://openrouter.ai/api/alpha/decisions}"
-body="$(mktemp)"
+mkdir -p ../.scratch
+body="$(mktemp ../.scratch/probe-XXXXXX)"
 trap 'rm -f "$body"' EXIT
 # printf is a shell builtin, so the header never appears in a process listing.
 meta="$(printf 'Authorization: Bearer %s\n' "$key" | curl -sS -o "$body" \
@@ -30,6 +31,6 @@ echo "http_status=$status time_total_s=$seconds"
 bun -e '
 const body = JSON.parse(await Bun.file(process.argv[1]).text());
 const answer = body.answers?.route_decision;
-console.log(JSON.stringify({ model: body.model, choice: answer?.choice, probabilities: answer?.probabilities, confidence: answer?.confidence, usage: body.usage, error: body.error?.message }));
+console.log(JSON.stringify({ model: body.model, choice: answer?.choice, probabilities: answer?.probabilities, confidence: answer?.confidence, usage: body.usage, error_code: body.error?.code }));
 ' "$body"
 [ "$status" = "200" ]

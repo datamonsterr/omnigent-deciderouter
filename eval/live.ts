@@ -1,7 +1,8 @@
 // Live golden evaluation: every golden case goes through the real server
 // handler with a single decider model (no chat or heuristic rescue hidden in
 // the numbers). Run eval/probe.sh first. Results are written without secrets.
-import { mkdirSync, writeFileSync } from "node:fs";
+import { createHash } from "node:crypto";
+import { readdirSync, readFileSync, mkdirSync, writeFileSync } from "node:fs";
 import { dirname } from "node:path";
 import { loadConfig } from "../src/config";
 import { createHandler } from "../src/index";
@@ -11,19 +12,24 @@ import {
   goldenRequest,
   LIVE_RESULTS_PATH,
   loadGolden,
-  percentile,
+  acceptanceSummary,
+  evaluationPlan,
   scoreSelection,
-  summarize,
   type LiveCaseResult,
 } from "./golden";
 
 const FREE_MODEL = "inception/mercury-decide:free";
 const deciderModel = process.env.EVAL_DECIDER_MODEL || FREE_MODEL;
 const intervalMs = Number.parseInt(process.env.EVAL_INTERVAL_MS || "3100", 10);
-const maxCases = Number.parseInt(process.env.EVAL_MAX_CASES || "50", 10);
 const outputPath = process.env.EVAL_OUTPUT || LIVE_RESULTS_PATH;
-const ACCURACY_GATE = 0.8;
-const P95_GATE_MS = 3000;
+const golden = loadGolden();
+const plan = evaluationPlan(process.env, golden.cases.length);
+const sourceFiles = [
+  ...["src", "eval"].flatMap((directory) => readdirSync(directory).filter((name) => name.endsWith(".ts")).map((name) => directory + "/" + name)),
+  "tests/golden/routing-golden.json", "package.json", "bun.lock",
+].sort();
+const sourceHashes = Object.fromEntries(sourceFiles.map((name) => [name, createHash("sha256").update(readFileSync(name)).digest("hex")]));
+const revision = Bun.spawnSync(["git", "rev-parse", "HEAD"]).stdout.toString().trim();
 
 if (!deciderModel.endsWith(":free") && process.env.EVAL_ALLOW_PAID !== "1") {
   console.error(`Refusing paid decider ${deciderModel}; set EVAL_ALLOW_PAID=1 and report the cost.`);
@@ -35,8 +41,7 @@ if (!apiKey) {
   process.exit(2);
 }
 
-const golden = loadGolden();
-const cases = golden.cases.slice(0, maxCases);
+const cases = golden.cases.slice(0, plan.count);
 const config = loadConfig({ ...process.env, OPENROUTER_API_KEY: apiKey, DECIDER_MODELS: deciderModel });
 
 let lastUpstream: { status: number; body: unknown } | null = null;
@@ -72,6 +77,7 @@ for (const [index, testCase] of cases.entries()) {
   const result: LiveCaseResult = {
     ...scoreSelection(testCase, request, first?.route_option),
     upstream_status: upstream?.status ?? null,
+    router_status: res.status,
     latency_ms: latencyMs,
     source: first?.params?.source ?? `router HTTP ${res.status}`,
     decider_model: first?.params?.decider_model ?? deciderModel,
@@ -99,35 +105,17 @@ for (const [index, testCase] of cases.entries()) {
   );
 }
 
-const latencies = results.map((r) => r.latency_ms);
-const base = summarize(results);
-const summary = {
-  ...base,
-  accuracy: Number(base.accuracy.toFixed(4)),
-  unoffered: base.invalid,
-  upstream_http_200: results.filter((r) => r.upstream_status === 200).length,
-  upstream_errors: results.filter((r) => r.upstream_status !== 200).length,
-  fallbacks: results.filter((r) => r.source !== "decisions_api").length,
-  sources: Object.fromEntries(
-    [...new Set(results.map((r) => r.source))].map((s) => [s, results.filter((r) => r.source === s).length]),
-  ),
-  served_models: [...new Set(results.map((r) => r.served_model).filter(Boolean))],
-  latency_ms: { p50: percentile(latencies, 50), p95: percentile(latencies, 95), max: Math.max(...latencies) },
-  gates: {
-    all_http_200: results.every((r) => r.upstream_status === 200),
-    zero_invalid: base.invalid === 0,
-    zero_fallbacks: results.every((r) => r.source === "decisions_api"),
-    accuracy_at_least_0_8: base.accuracy >= ACCURACY_GATE,
-    p95_under_3000ms: percentile(latencies, 95) < P95_GATE_MS,
-  },
-};
-const passed = Object.values(summary.gates).every(Boolean);
+const summary = acceptanceSummary(golden, results);
+const passed = plan.mode === "acceptance" && summary.passed;
 
 mkdirSync(dirname(outputPath), { recursive: true });
 writeFileSync(
   outputPath,
   `${JSON.stringify(
     {
+      source_revision: revision,
+      source_sha256: sourceHashes,
+      mode: plan.mode,
       generated_at: new Date().toISOString(),
       decider_model: deciderModel,
       command: "OPENROUTER_ENV_FILE=<path> bun run eval:live",
@@ -140,4 +128,4 @@ writeFileSync(
 );
 console.log(JSON.stringify({ ...summary, passed }, null, 2));
 console.log(`results written to ${outputPath}`);
-process.exit(passed ? 0 : 1);
+process.exit(plan.mode === "smoke" ? 0 : passed ? 0 : 1);

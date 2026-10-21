@@ -5,11 +5,6 @@ name: Live eval
 # secret never reaches pull requests from forks.
 on:
   workflow_dispatch:
-    inputs:
-      max_cases:
-        description: Maximum golden cases to evaluate (free mercury model, one call each)
-        required: false
-        default: "50"
 
 permissions:
   contents: read
@@ -41,7 +36,6 @@ jobs:
         run: ./eval/probe.sh
       - name: Golden eval (free mercury only)
         env:
-          EVAL_MAX_CASES: ${{ inputs.max_cases }}
           EVAL_OUTPUT: eval-output/live-golden.json
         run: bun run eval:live
       - name: Upload results

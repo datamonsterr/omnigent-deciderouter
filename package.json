@@ -13,8 +13,9 @@
     "build": "bun build src/index.ts --target=bun --outdir=dist",
     "check": "bun run typecheck && bun test && bun run build",
     "check:models": "bun run eval/check-models.ts",
-    "probe": "bun run eval/probe.ts",
+    "probe": "./eval/probe.sh",
     "eval:live": "bun run eval/live.ts",
+    "eval:smoke": "EVAL_MODE=smoke EVAL_MAX_CASES=1 bun run eval/live.ts",
     "skills:install": "bun run scripts/install-skills.ts"
   },
   "devDependencies": {
