@@ -33,20 +33,28 @@ export function installVerifiedSkill(source: string, target: string, skill: Mani
   mkdirSync(dirname(target), { recursive: true });
   const stage = mkdtempSync(join(dirname(target), ".skill-stage-"));
   const candidate = join(stage, "candidate");
-  const previous = join(stage, "previous");
   try {
     cpSync(source, candidate, { recursive: true });
     const skillFile = join(candidate, "SKILL.md");
     if (skill.patch?.startsWith("quote-description")) quoteDescription(skillFile);
     const digest = createHash("sha256").update(readFileSync(skillFile)).digest("hex");
     if (digest !== skill.sha256) throw new Error("Skill hash mismatch");
-    const hadPrevious = existsSync(target);
-    if (hadPrevious) renameSync(target, previous);
-    try {
+    if (existsSync(target)) {
+      // Linux renameat2 exchanges nonempty directories without a missing-path window.
+      const exchanged = Bun.spawnSync(["python3", "-c", `
+import ctypes, os, sys
+library = ctypes.CDLL(None, use_errno=True)
+exchange = library.renameat2
+exchange.argtypes = [ctypes.c_int, ctypes.c_char_p, ctypes.c_int, ctypes.c_char_p, ctypes.c_uint]
+exchange.restype = ctypes.c_int
+AT_FDCWD = -100
+RENAME_EXCHANGE = 2
+if exchange(AT_FDCWD, os.fsencode(sys.argv[1]), AT_FDCWD, os.fsencode(sys.argv[2]), RENAME_EXCHANGE) != 0:
+    raise OSError(ctypes.get_errno(), "Atomic directory exchange failed")
+`, candidate, target]);
+      if (exchanged.exitCode !== 0) throw new Error("Atomic skill replacement unavailable; existing install preserved (requires Linux and Python 3)");
+    } else {
       renameSync(candidate, target);
-    } catch (error) {
-      if (hadPrevious) renameSync(previous, target);
-      throw error;
     }
   } finally {
     rmSync(stage, { recursive: true, force: true });

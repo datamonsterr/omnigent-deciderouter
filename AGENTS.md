@@ -67,7 +67,8 @@ deciders unless `EVAL_ALLOW_PAID=1`; report any paid run and its cost.
 
 - Project skill bank (private, routed by the Jev skill selector):
   `.agents/jev_skills/`, installed from pinned commits with
-  `bun run skills:install` (manifest: `.agents/skills-manifest.json`). It holds
+  `bun run skills:install` (manifest: `.agents/skills-manifest.json`). Replacement requires Linux and Python 3 for atomic directory exchange and
+  fails without modifying an existing install if unavailable. It holds
   `openrouter-decisions`, `openrouter-models`, `bun-test-basics`,
   `bun-test-mocking` and `github-actions-templates`.
 - The selector itself is discoverable at `.agents/skills/jev-skill-selector/`.

@@ -148,6 +148,12 @@ Dockerfile, docker-compose.yml
 
 ## Development
 
+Project skill replacement uses Linux `renameat2(RENAME_EXCHANGE)` via
+Python 3 to publish a verified directory atomically. If unavailable, an
+existing install remains intact and replacement fails; first installs use
+a same-filesystem rename. These are installer-only prerequisites, not router
+runtime dependencies.
+
 ```sh
 bun install --frozen-lockfile
 bun run check          # typecheck + tests (incl. offline golden replay) + build

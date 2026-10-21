@@ -10,12 +10,12 @@ Cherry-picked source: `874550c49356b02ac900e36f0f32bcffc79312de` as
 ## Local gates
 
 `bun install --frozen-lockfile` passed with Bun 1.3.14. `bun run check`
-passed: `tsc --noEmit`, **102 collected test cases across 8 files**, 0 failures,
+passed: `tsc --noEmit`, **103 collected test cases across 8 files**, 0 failures,
 and `bun build src/index.ts --target=bun --outdir=dist` (6 modules).
 The eight files are `heuristic.test.ts`, `golden.test.ts`,
 `openrouter.test.ts`, `router.test.ts`, `evaluation.test.ts`,
 `install-skills.test.ts`, `selector.test.ts`, and `runtime-baseline.test.ts`
-under `tests/`. Parameterized cases are included in the 102 count.
+under `tests/`. Parameterized cases are included in the 103 count.
 
 Focused commands passed:
 
@@ -23,7 +23,7 @@ Focused commands passed:
 | --- | ---: | --- |
 | `bun test tests/openrouter.test.ts tests/router.test.ts` | 55 | 0 failures |
 | `bun test tests/evaluation.test.ts tests/golden.test.ts` | 31 | 0 failures |
-| `bun test tests/install-skills.test.ts tests/selector.test.ts` | 2 | 0 failures |
+| `bun test tests/install-skills.test.ts tests/selector.test.ts` | 3 | 0 failures |
 | `bun test tests/runtime-baseline.test.ts` | 2 | 0 failures |
 
 Red/green runs reproduced invalid Decisions data being accepted, destructive
@@ -57,7 +57,7 @@ Every gate is true; `summary.passed` is true. Model:
 `live-golden.json` contains the raw answers, mode, evaluated source revision
 `21eeed6ac05336ef19f17d2f212536f8001e0a82` and SHA256 of every runtime/eval TS
 file, the golden set, package manifest and lockfile. Subsequent changes affect
-workflow/docs/evidence and rollback tooling only; compare its hashes to verify source equivalence.
+workflow/docs/evidence, installer and rollback tooling only; compare its hashes to verify source equivalence.
 Recorded replay recomputes selections through the production handler and gates
 against current labels instead of trusting saved selected/correct fields.
 
@@ -84,7 +84,10 @@ only manual `workflow_dispatch` can run live calls with the Actions secret.
 ## Project skills and runtime baseline
 
 `bun run skills:install` installed all five pinned project skills and verified
-their SKILL.md hashes. `skill-selector.md` records the actual exclusive-bank
+their SKILL.md hashes. Atomic replacement uses Linux renameat2 exchange via
+Python 3. A separate concurrent-reader regression observed 581 missing-path
+reads under the original two-rename implementation and zero after atomic
+exchange; mismatched content still preserves the existing install. `skill-selector.md` records the actual exclusive-bank
 Jev invocation and full provenance. It selected Bun mocking, OpenRouter
 Decisions and GitHub Actions skills with free Mercury at zero cost. No global
 hooks or configuration were changed.
