@@ -37,6 +37,7 @@ export async function decideRoute(
           ranking: sanitizeRanking(answer.ranking, req.route_options.length),
           rationale: answer.rationale,
           deciderModel: model,
+          servedModel: answer.servedModel,
           source: viaDecisions ? "decisions_api" : "chat",
         };
       } catch {

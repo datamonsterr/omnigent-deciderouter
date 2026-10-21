@@ -1,0 +1,20 @@
+{
+  "model": "inception/mercury-decide:free",
+  "state": {
+    "task": "Fix the typo 'recieve' -> 'receive' in README.md.",
+    "route_options": [
+      { "model": "gemini-3.8-flash-low", "harness": "agy" },
+      { "model": "gpt-6.1-sol", "harness": "codex" }
+    ]
+  },
+  "questions": {
+    "route_decision": {
+      "type": "choice",
+      "instructions": "Which route option should handle `task`? Choose the least costly option that can reliably complete it.",
+      "criteria": {
+        "option_0": "gemini-3.8-flash-low via agy. Cheapest worker for trivial bounded tasks such as typos and renames.",
+        "option_1": "gpt-6.1-sol via codex. Deepest worker for subtle bugs, security and architecture; overkill for small edits."
+      }
+    }
+  }
+}

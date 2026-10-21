@@ -1,1 +1,24 @@
-{"description":"Self-hostable external Smart Routing server for Omnigent, using free/cheap decision models via OpenRouter","name":"omnigent-openrouter-router","private":true,"scripts":{"dev":"bun --watch run src/index.ts","start":"bun run src/index.ts","test":"bun test"},"type":"module","version":"0.1.0"}
+{
+  "name": "omnigent-openrouter-router",
+  "version": "0.2.0",
+  "description": "Self-hostable external Smart Routing server for Omnigent, using free/cheap decision models via OpenRouter",
+  "private": true,
+  "type": "module",
+  "packageManager": "bun@1.3.14",
+  "scripts": {
+    "dev": "bun --watch run src/index.ts",
+    "start": "bun run src/index.ts",
+    "test": "bun test",
+    "typecheck": "tsc --noEmit",
+    "build": "bun build src/index.ts --target=bun --outdir=dist",
+    "check": "bun run typecheck && bun test && bun run build",
+    "check:models": "bun run eval/check-models.ts",
+    "probe": "bun run eval/probe.ts",
+    "eval:live": "bun run eval/live.ts",
+    "skills:install": "bun run scripts/install-skills.ts"
+  },
+  "devDependencies": {
+    "@types/bun": "1.3.14",
+    "typescript": "6.0.3"
+  }
+}

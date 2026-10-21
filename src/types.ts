@@ -45,5 +45,7 @@ export interface DecisionResult {
   rationale: string;
   /** The decision model used, or "local-heuristic" for the fallback. */
   deciderModel: string;
+  /** Dated build reported by the Decisions API, when available. */
+  servedModel?: string;
   source: DecisionSource;
 }
