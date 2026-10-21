@@ -87,11 +87,11 @@ Rules that keep this predictable:
 
 - **Free → cheap priority** everywhere, and the whole chain is configurable via `DECIDER_MODELS` (or per-request via `route_selector.config.decider_models`).
 - Decision models use the Decisions API: TypeSafe Jev ids (`~typesafe/jev-latest`, `typesafe/jev-1.14`), ids with a `decide` / `decider` / `decision(s)` name segment (`inception/mercury-decide:free`, `perplexity/pplx-decider-flash-v1.2`, `openai/gpt-6-luna-decisions`), and ids listed in `DECISIONS_MODELS`. All other models use Chat Completions. `bun run check:models` checks the configured chain against the live catalog (`/api/v1/models?output_modalities=decisions`).
-- Decisions answers are validated: the answer must be a `choice`, the chosen key must be an offered option, and probabilities must cover at least one offered option. Anything else counts as a failure and moves to the next model.
+- Decisions answers are validated: the answer must be a `choice`, the chosen key must be an offered option, supplied confidence and probabilities must be finite numbers in [0,1], probability keys must be offered, and the choice must share the highest supplied probability (ties are valid). Confidence and probabilities may be omitted per the official schema. Anything else counts as a failure and moves to the next model.
 - Each option is described to the decision model with its known profile (for the Polly worker catalog: `gpt-6-luna`, `gpt-6.1-sol`, `gemini-3.8-flash-low|medium|high`, `opencode/deepseek-v4.1-flash-free`, `opencode-go/muse-spark-1.3-contributor`), so the model judges capability and cost, not just names.
 - Each attempt has a timeout and the whole decision has an overall budget (`ROUTER_TIMEOUT_MS`, default 8000 ms). A failure, `429`/`5xx`, or unparseable output simply moves to the next model.
 - **Only options copied verbatim from the request are ever returned** — a selection that was not offered is invalid in Omnigent, so this server never invents one.
-- The winning decider is recorded in the first selection's `params`: `decider_model`, `source` (`decisions_api` | `chat` | `heuristic`) and, for decision models, `served_model` (the dated build).
+- The winning decider is recorded in the first selection's `params`: `decider_model`, `source` (`decisions_api` | `chat` | `heuristic`) and, for decision models, `served_model` (the dated build). Bounded `attempt_errors` reports up to eight failed attempts with transport and fixed validation/HTTP errors; arbitrary exception text and upstream error bodies are never forwarded.
 
 ## API contract
 
@@ -165,7 +165,7 @@ recorded in `policy_routes` because a RouteOption has no effort field.
 - **Offline** (`bun test`): validates the set, replays it through the local
   heuristic (gate: 0 unoffered, >= 80% top-1, 0 forbidden) and replays the
   recorded live Decisions answers in `eval/results/live-golden.json` through the
-  server.
+  server and re-scores current labels with the complete unique ID set required.
 - **Live** (probe first, then eval; free `inception/mercury-decide:free` only,
   one call per case, 3.1 s apart):
 
@@ -174,9 +174,14 @@ recorded in `policy_routes` because a RouteOption has no effort field.
   OPENROUTER_ENV_FILE=~/.config/omnigent-deciderouter/openrouter.env bun run eval:live
   ```
 
-  Gates: upstream HTTP 200 for every case, 0 invalid/unoffered selections, 0
+  Gates: all 40 unique golden IDs, router and upstream HTTP 200 for every case, 0 invalid/unoffered/forbidden selections, 0
   fallbacks, top-1 accuracy >= 80%, p95 < 3000 ms. Results (no secrets) are
   written to `eval/results/live-golden.json`.
+
+  `bun run eval:smoke` explicitly selects smoke mode with one case; it always
+  records `passed: false` and cannot satisfy deployment acceptance.
+  `EVAL_MAX_CASES` must be a positive integer within the set; acceptance mode
+  rejects any count smaller than the complete set.
 
 ## CI
 
