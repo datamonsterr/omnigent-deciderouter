@@ -14,7 +14,7 @@ it("restores the actual running start flags and agents rather than pending drop-
 it("escapes systemd expansion and quoted path characters in captured argv", () => {
   const unit = runtimeOverride(["/opt/bin/runtime", 'a$b%c"d\\e'], "/work dir");
   expect(unit).toContain('"a$$b%%c\\"d\\\\e"');
-  expect(unit).toContain('WorkingDirectory="/work dir"');
+  expect(unit).toContain('WorkingDirectory=/work dir\n');
   expect(() => runtimeOverride([], "/work")).toThrow();
   expect(() => runtimeOverride(["relative"], "/work")).toThrow();
 });

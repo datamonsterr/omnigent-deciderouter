@@ -9,7 +9,8 @@ function unitQuote(value: string, command = false): string {
 /** A later drop-in overrides pending ExecStart changes without editing them. */
 export function runtimeOverride(argv: string[], cwd: string): string {
   if (!argv.length || !isAbsolute(argv[0]!) || !isAbsolute(cwd)) throw new Error("Absolute executable and working directory required");
-  return "[Service]\nWorkingDirectory=" + unitQuote(cwd) +
+  if (/[\r\n]/.test(cwd) || cwd.trim() !== cwd) throw new Error("Working directory cannot contain line breaks or boundary whitespace");
+  return "[Service]\nWorkingDirectory=" + cwd.replaceAll("%", "%%") +
     "\nExecStart=\nExecStart=" + argv.map((arg) => unitQuote(arg, true)).join(" ") + "\n";
 }
 
@@ -28,7 +29,7 @@ if (import.meta.main) {
   const pid = show("MainPID");
   if (!/^[1-9]\d*$/.test(pid)) throw new Error("Service is not running");
   const proc = "/proc/" + pid;
-  const argv = readFileSync(join(proc, "cmdline"), "utf8").split("\0").filter(Boolean);
+  const argv = readFileSync(join(proc, "cmdline"), "utf8").split("\0").slice(0, -1);
   const cwd = readlinkSync(join(proc, "cwd"));
   const override = runtimeOverride(argv, cwd);
   const baseline = {
@@ -49,7 +50,7 @@ if (import.meta.main) {
   const config = join(process.env.HOME!, ".config/omnigent/server-polly.yaml");
   if (existsSync(config)) copyFileSync(config, join(snapshot, "server-polly.yaml"));
   const after = show("MainPID");
-  if (after !== pid || readFileSync(join(proc, "cmdline"), "utf8").split("\0").filter(Boolean).join("\0") !== argv.join("\0")) {
+  if (after !== pid || readFileSync(join(proc, "cmdline"), "utf8").split("\0").slice(0, -1).join("\0") !== argv.join("\0")) {
     throw new Error("Runtime changed during capture; discard snapshot and retry");
   }
   console.log(JSON.stringify({ snapshot, pid, agent_count: baseline.agents.length, has_config_flag: baseline.config !== null }));

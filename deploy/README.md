@@ -56,6 +56,11 @@ export XDG_RUNTIME_DIR=/run/user/$(id -u)
 export DBUS_SESSION_BUS_ADDRESS=unix:path=$XDG_RUNTIME_DIR/bus
 snapshot="$HOME/.config/omnigent-deciderouter/baseline-$(date -u +%Y%m%dT%H%M%SZ)"
 bun run deploy/runtime-baseline.ts "$snapshot"
+{
+  printf '[Unit]\nDescription=Runtime rollback syntax check\n[Service]\nType=simple\n'
+  cat "$snapshot/zz-deciderouter-runtime-rollback.conf"
+} > "$snapshot/runtime-rollback.service"
+systemd-analyze --user verify "$snapshot/runtime-rollback.service"
 ```
 
 The read-only capture records `/proc/MainPID/cmdline`, actual working directory,

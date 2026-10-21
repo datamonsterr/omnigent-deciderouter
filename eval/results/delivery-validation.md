@@ -56,8 +56,8 @@ Every gate is true; `summary.passed` is true. Model:
 
 `live-golden.json` contains the raw answers, mode, evaluated source revision
 `21eeed6ac05336ef19f17d2f212536f8001e0a82` and SHA256 of every runtime/eval TS
-file, the golden set, package manifest and lockfile. Subsequent changes are
-workflow/docs/evidence only; compare its hashes to verify source equivalence.
+file, the golden set, package manifest and lockfile. Subsequent changes affect
+workflow/docs/evidence and rollback tooling only; compare its hashes to verify source equivalence.
 Recorded replay recomputes selections through the production handler and gates
 against current labels instead of trusting saved selected/correct fields.
 
@@ -103,7 +103,11 @@ existing Omnigent virtual environment, `server --host 127.0.0.1 --port 6767`,
 conductor-opencode, opencode, designer, agy-acc1..4, planner-codex. Pending
 drop-ins: `50-polly.conf`, `60-stitch-env.conf`, `65-custom-agents.conf`.
 The capture prepared an override in private scratch only. It never installed
-a unit/drop-in, reloaded a daemon or restarted a service. Private unit/config
+a unit/drop-in, reloaded a daemon or restarted a service. The generated full
+rollback unit passed `systemd-analyze --user verify
+.scratch/restored-runtime.service` (exit 0) after a regression caught literal
+quotes in WorkingDirectory. Smoke mode was also exercised through the real CLI:
+one case, exit 0 for diagnostics, `summary.passed: false`. Private unit/config
 snapshots are deleted with scratch; capture a fresh retained baseline at the
 later authorized activation window.
 
