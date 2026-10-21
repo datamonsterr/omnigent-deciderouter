@@ -1,6 +1,6 @@
 import { describe, expect, it } from "bun:test";
 import { DEFAULT_DECIDER_MODELS, loadConfig } from "../src/config";
-import { askDecisionsModel, isDecisionModel, openRouterHeaders, type FetchFn } from "../src/openrouter";
+import { askDecisionsModel, rankDecisionsAnswer, isDecisionModel, openRouterHeaders, type FetchFn } from "../src/openrouter";
 import type { SelectRouteRequest } from "../src/types";
 
 const config = loadConfig({ OPENROUTER_BASE_URL: "https://mock.openrouter.test", OPENROUTER_API_KEY: "test-key" });
@@ -115,4 +115,43 @@ describe("askDecisionsModel response validation", () => {
     expect(criteria.option_0).toContain("gpt-6-luna via codex");
     expect(criteria.option_1.toLowerCase()).toContain("subtle bugs");
   });
+});
+
+describe("choice probability contract", () => {
+  it.each([
+    { option_0: 0.9, option_1: 0.1, unoffered: 0 },
+    { option_0: -0.1, option_1: 0.9 },
+    { option_0: 1.1, option_1: 0 },
+    { option_0: NaN, option_1: 0 },
+    { option_0: Infinity, option_1: 0 },
+    { option_0: "0.9", option_1: 0.1 },
+    { option_0: 0.1, option_1: 0.9 },
+    { option_1: 1 },
+    null,
+    { option_0: 0.8, option_1: null },
+    {},
+  ])("rejects malformed or conflicting probabilities %j", (probabilities) => {
+    expect(() => rankDecisionsAnswer({ type: "choice", choice: "option_0", probabilities }, 2)).toThrow();
+  });
+
+  it.each([-1, 1.1, NaN, Infinity, "0.8", null])("rejects invalid confidence %j", (confidence) => {
+    expect(() => rankDecisionsAnswer({ type: "choice", choice: "option_0", confidence }, 2)).toThrow();
+  });
+
+  it.each([undefined, 0, 0.8, 1])("accepts optional valid confidence %j", (confidence) => {
+    expect(rankDecisionsAnswer({ type: "choice", choice: "option_0", confidence }, 2)).toEqual([0, 1]);
+  });
+
+  it("accepts a tied maximum and keeps the chosen tied option first", () => {
+    expect(rankDecisionsAnswer({
+      type: "choice", choice: "option_1", probabilities: { option_0: 0.5, option_1: 0.5 },
+    }, 2)).toEqual([1, 0]);
+  });
+});
+
+it("rejects array probabilities through the transport and accepts optional probability omission", async () => {
+  await expect(askDecisionsModel("inception/mercury-decide:free", request, config,
+    decisionsReply({ type: "choice", choice: "option_0", probabilities: [0.9, 0.1] }), 1000)).rejects.toThrow(/probabilit/);
+  expect((await askDecisionsModel("inception/mercury-decide:free", request, config,
+    decisionsReply({ type: "choice", choice: "option_1", confidence: 0 }), 1000)).ranking).toEqual([1, 0]);
 });

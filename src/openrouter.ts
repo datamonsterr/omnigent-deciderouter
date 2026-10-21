@@ -5,6 +5,9 @@ import type { SelectRouteRequest } from "./types";
 
 export type FetchFn = typeof fetch;
 
+/** Messages contain only fixed validation text or an HTTP status, never upstream content. */
+export class OpenRouterError extends Error {}
+
 export interface ModelAnswer {
   ranking: number[];
   rationale: string;
@@ -55,12 +58,12 @@ async function readJson(res: Response): Promise<unknown> {
   try {
     return JSON.parse(text);
   } catch {
-    throw new Error(`Non-JSON response (HTTP ${res.status})`);
+    throw new OpenRouterError(`Non-JSON response (HTTP ${res.status})`);
   }
 }
 
 function ensureOk(res: Response): void {
-  if (!res.ok) throw new Error(`OpenRouter HTTP ${res.status}`);
+  if (!res.ok) throw new OpenRouterError(`OpenRouter HTTP ${res.status}`);
 }
 
 /** Keep only valid, unique indices, then append any missing ones in order. */
@@ -145,19 +148,30 @@ export async function askDecisionsModel(
 /** Validate a Decisions API `choice` answer and turn it into a full ranking.
  *  Any answer that names an option we did not offer is rejected. */
 export function rankDecisionsAnswer(answer: unknown, count: number): number[] {
-  if (!answer || typeof answer !== "object") throw new Error("Decisions API response had no route_decision answer");
-  const { type, choice, probabilities } = answer as { type?: unknown; choice?: unknown; probabilities?: unknown };
-  if (type !== "choice") throw new Error(`Decisions API answer type ${String(type)} is not a choice`);
+  if (!answer || typeof answer !== "object") throw new OpenRouterError("Decisions API response had no route_decision answer");
+  const { type, choice, probabilities, confidence } = answer as { type?: unknown; choice?: unknown; probabilities?: unknown; confidence?: unknown };
+  if (type !== "choice") throw new OpenRouterError("Decisions API answer is not a choice");
   const offered = Array.from({ length: count }, (_, i) => optionKey(i));
   if (typeof choice !== "string" || !offered.includes(choice)) {
-    throw new Error(`Decisions API choice ${String(choice)} was not offered`);
+    throw new OpenRouterError("Decisions API choice was not offered");
+  }
+  const isProbability = (value: unknown): value is number =>
+    typeof value === "number" && Number.isFinite(value) && value >= 0 && value <= 1;
+  if (confidence !== undefined && !isProbability(confidence)) {
+    throw new OpenRouterError("Decisions API confidence is malformed");
   }
   const chosen = offered.indexOf(choice);
   if (probabilities === undefined) return sanitizeRanking([chosen], count);
-  if (!probabilities || typeof probabilities !== "object") throw new Error("Decisions API probabilities are malformed");
+  if (!probabilities || typeof probabilities !== "object" || Array.isArray(probabilities)) {
+    throw new OpenRouterError("Decisions API probabilities are malformed");
+  }
   const scores = probabilities as Record<string, unknown>;
-  if (!offered.some((key) => typeof scores[key] === "number")) {
-    throw new Error("Decisions API probabilities cover none of the offered options");
+  const entries = Object.entries(scores);
+  if (!entries.length || entries.some(([key, value]) => !offered.includes(key) || !isProbability(value))) {
+    throw new OpenRouterError("Decisions API probabilities contain invalid or unoffered entries");
+  }
+  if (!isProbability(scores[choice]) || entries.some(([, value]) => (value as number) > (scores[choice] as number))) {
+    throw new OpenRouterError("Decisions API choice conflicts with highest probability");
   }
   const scored = offered.map((key, i) => ({ i, p: typeof scores[key] === "number" ? (scores[key] as number) : 0 }));
   // The returned choice leads; probabilities order the rest.
@@ -177,10 +191,10 @@ export function parseChatRanking(content: string, count: number): ModelAnswer {
   const cleaned = content.replace(/```(?:json)?/gi, "");
   const start = cleaned.indexOf("{");
   const end = cleaned.lastIndexOf("}");
-  if (start === -1 || end <= start) throw new Error("Chat model did not return JSON");
+  if (start === -1 || end <= start) throw new OpenRouterError("Chat model did not return JSON");
   const parsed = JSON.parse(cleaned.slice(start, end + 1)) as { ranking?: unknown; rationale?: unknown };
   if (!Array.isArray(parsed.ranking) || parsed.ranking.length === 0) {
-    throw new Error("Chat model JSON had no ranking");
+    throw new OpenRouterError("Chat model JSON had no ranking");
   }
   return {
     ranking: sanitizeRanking(parsed.ranking, count),
@@ -219,7 +233,7 @@ export async function askChatModel(
     choices?: { message?: { content?: unknown } }[];
   };
   const content = data.choices?.[0]?.message?.content;
-  if (typeof content !== "string") throw new Error("Chat response had no message content");
+  if (typeof content !== "string") throw new OpenRouterError("Chat response had no message content");
   const answer = parseChatRanking(content, req.route_options.length);
   if (!answer.rationale) {
     answer.rationale = `Chat decider model ${model} ranked ${optionLabel(req, answer.ranking[0]!)} first for this task.`;

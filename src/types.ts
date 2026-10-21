@@ -39,7 +39,14 @@ export interface SelectRouteResponse {
 
 export type DecisionSource = "decisions_api" | "chat" | "heuristic";
 
+export interface AttemptError {
+  attempt: number;
+  source: "decisions_api" | "chat";
+  error: string;
+}
+
 export interface DecisionResult {
+  attemptErrors: AttemptError[];
   /** Indices into route_options, best-first, every index exactly once. */
   ranking: number[];
   rationale: string;
